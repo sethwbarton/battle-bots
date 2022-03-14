@@ -53,13 +53,10 @@ export class TerminalSelect {
     // without this, we would only get streams once enter is pressed
     stdin.setRawMode(true)
 
-    // resume stdin in the parent process (node app won't quit all by itself
-    // unless an error or process.exit() happens)
-    stdin.resume()
-
     // i don't want binary, do you?
     stdin.setEncoding('utf8')
 
+    this.draw()
     return new Promise((resolve) => {
       stdin.on('data', (data) => {
         this.handleUserInput(String(data), resolve)
@@ -75,18 +72,43 @@ export class TerminalSelect {
       resolve(this.options[this.currentSelectionIndex])
     }
     if (input === KeystrokeCodes.UP_ARROW) {
-      if (this.currentSelectionIndex + 1 < this.options.length - 1) {
-        this.currentSelectionIndex += 1
-      } else {
-        this.currentSelectionIndex = 0
-      }
+      this.onUpArrow()
     }
     if (input === KeystrokeCodes.DOWN_ARROW) {
-      if (this.currentSelectionIndex - 1 >= 0) {
-        this.currentSelectionIndex -= 1
-      } else {
-        this.currentSelectionIndex = this.options.length - 1
-      }
+      this.onDownArrow()
     }
+  }
+
+  private draw() {
+    if (this.question) {
+      process.stdout.write(this.question + '\n')
+    }
+    this.options.forEach((option, index) => {
+      if (index === this.currentSelectionIndex) {
+        process.stdout.write(
+          '> ' + this.highlightColor + option + TerminalColors.RESET + '\n'
+        )
+      } else {
+        process.stdout.write('> ' + option + '\n')
+      }
+    })
+  }
+
+  private onDownArrow() {
+    if (this.currentSelectionIndex - 1 >= 0) {
+      this.currentSelectionIndex -= 1
+    } else {
+      this.currentSelectionIndex = this.options.length - 1
+    }
+    this.draw()
+  }
+
+  private onUpArrow() {
+    if (this.currentSelectionIndex + 1 <= this.options.length - 1) {
+      this.currentSelectionIndex += 1
+    } else {
+      this.currentSelectionIndex = 0
+    }
+    this.draw()
   }
 }
