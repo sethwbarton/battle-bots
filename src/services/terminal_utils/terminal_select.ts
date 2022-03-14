@@ -80,6 +80,7 @@ export class TerminalSelect {
   }
 
   private draw() {
+    rdl.cursorTo(process.stdout, 0, 0)
     if (this.question) {
       process.stdout.write(this.question + '\n')
     }
