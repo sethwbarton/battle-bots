@@ -1,4 +1,4 @@
-export const nuclearExplosionIntroPic =
+export const nuclear_explosion_intro_pic =
   '                BATTLE         ________________                BOTS\n' +
   '                          ____/ (  (    )   )  \\___\n' +
   '                         /( (  (  )   _    ))  )   )\\\n' +
