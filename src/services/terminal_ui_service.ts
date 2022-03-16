@@ -5,17 +5,21 @@ import {
   TerminalSelect,
 } from './terminal_utils/terminal_select'
 
-export class Terminal_ui_service implements UiService {
+export class Terminal_UI_Service implements UiService {
   public async showStartScreen(): Promise<void> {
     console.log(nuclear_explosion_intro_pic)
   }
 
   public async getGameStartType(): Promise<GameStartOptionType> {
-    const multiSelectResponse = new TerminalSelect({
+    const terminalSelect = new TerminalSelect({
       question: '',
       options: ['New', 'Load'],
     })
-    // TODO: Need to return the multiSelectResponse but to lower case
-    return 'new'
+    const selectedStartType = await terminalSelect.waitForInput()
+    if (selectedStartType === 'New') {
+      return 'new'
+    } else {
+      return 'load'
+    }
   }
 }
