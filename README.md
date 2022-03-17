@@ -31,5 +31,10 @@ to the UGLY home world, where one final massacre of grammar-loathing youth will 
 If UGLY advances to the player's home world, the player loses. Shows a message that they have been PWNED.
 
 
+But as another idea....
+
+This might be the time to build that space exploration RPG I've always had in mind....
+
+
 
 
