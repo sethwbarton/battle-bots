@@ -1,31 +1,39 @@
-import { Player } from './player'
-import { StarSystem } from './star_system'
+import { IPlayerState, Player } from './player'
+import { IStarSystemState, StarSystem } from './star_system'
 
 export interface IBattleBotsGameState {
-  player: Player
-  knownSystems: StarSystem[]
+  _player: IPlayerState
+  _knownSystems: IStarSystemState[]
 }
 
-export class BattleBotsGameState {
+export class BattleBotsGameState implements IBattleBotsGameState {
   private static instance: BattleBotsGameState
 
   /*
   GAME STATE DETAILS
    */
-  private player: Player
-  private knownSystems: StarSystem[]
+  _player: Player
+  _knownSystems: StarSystem[]
+
+  get player(): Player {
+    return this._player
+  }
+
+  set player(value: Player) {
+    this._player = value
+  }
+
+  get knownSystems(): StarSystem[] {
+    return this._knownSystems
+  }
+
+  set knownSystems(value: StarSystem[]) {
+    this._knownSystems = value
+  }
 
   private constructor() {
-    this.player = new Player()
+    this.player = new Player({})
     this.knownSystems = []
-  }
-
-  public getPlayer() {
-    return this.player
-  }
-
-  public getKnownSystems() {
-    return this.knownSystems
   }
 
   /**
@@ -52,7 +60,9 @@ export class BattleBotsGameState {
    * @param stateObject
    */
   public loadState(stateObject: IBattleBotsGameState): void {
-    this.player = stateObject.player
-    this.knownSystems = stateObject.knownSystems
+    this.player = new Player({ ...stateObject.player })
+    this.knownSystems = stateObject.knownSystems.map((system) => {
+      return new StarSystem({ ...system })
+    })
   }
 }
