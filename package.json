@@ -7,7 +7,7 @@
   "scripts": {
     "start": "ts-node src/index.ts",
     "build": "tsc",
-    "test": "echo Sorry, I need to set this up."
+    "test": "./test.sh"
   },
   "keywords": [],
   "author": "",

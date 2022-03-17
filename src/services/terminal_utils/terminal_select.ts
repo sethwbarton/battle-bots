@@ -33,6 +33,10 @@ export class TerminalSelect {
     this.currentSelectionIndex = 0
   }
 
+  /**
+   * Waits for the user to select from the given options.
+   * Will remove all listeners on stdin when finished.
+   */
   public async waitForInput(): Promise<string> {
     this.cursorStartLocation = await getCursorPos()
 
