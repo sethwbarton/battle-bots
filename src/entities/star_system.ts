@@ -1,21 +1,32 @@
-import { IPlanetState } from './planet'
+import { Planet } from './planet'
 
-export interface IStarSystemState {
-  _planets: IPlanetState[]
+interface NewStarSystemParams {
+  planets: Planet[]
+  name: string
 }
 
 export class StarSystem {
-  _planets: IPlanetState[]
+  private _name: string
 
-  get planets(): IPlanetState[] {
+  get name(): string {
+    return this._name
+  }
+
+  set name(value: string) {
+    this._name = value
+  }
+  _planets: Planet[]
+
+  get planets(): Planet[] {
     return this._planets
   }
 
-  set planets(value: IPlanetState[]) {
+  set planets(value: Planet[]) {
     this._planets = value
   }
 
-  constructor(state: IStarSystemState) {
-    this._planets = state._planets
+  constructor(state: NewStarSystemParams) {
+    this._planets = state.planets
+    this._name = state.name
   }
 }

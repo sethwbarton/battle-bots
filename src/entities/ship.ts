@@ -1,19 +1,19 @@
-export interface IShipState {
-  _hitPoints: number
+interface NewShipParams {
+  hitPoints: number
 }
 
-export class Ship implements IShipState {
-  _hitpoints: number
+export class Ship {
+  _hitPoints: number
 
-  get hitpoints(): number {
-    return this._hitpoints
+  get hitPoints(): number {
+    return this._hitPoints
   }
 
-  set hitpoints(value: number) {
-    this._hitpoints = value
+  set hitPoints(value: number) {
+    this._hitPoints = value
   }
 
-  constructor(state: IShipState) {
-    this._hitpoints = state._hitPoints
+  constructor(state: NewShipParams) {
+    this._hitPoints = state.hitPoints
   }
 }

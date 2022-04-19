@@ -1,9 +1,8 @@
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
-export interface IPlanetState {
-  _name: string
+interface NewPlanetParams {
+  name: string
 }
 
-export class Planet implements IPlanetState {
+export class Planet {
   _name: string
 
   get name(): string {
@@ -14,7 +13,7 @@ export class Planet implements IPlanetState {
     this._name = value
   }
 
-  constructor(state: IPlanetState) {
-    this._name = state._name
+  constructor(state: NewPlanetParams) {
+    this._name = state.name
   }
 }

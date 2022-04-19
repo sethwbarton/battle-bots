@@ -13,7 +13,7 @@ describe('Battle Bots Game State', () => {
     const player = new Player()
     const knownSystems: StarSystem[] = []
     gameStateInstance.loadState({ player, knownSystems })
-    expect(gameStateInstance.getPlayer() === player)
-    expect(gameStateInstance.getKnownSystems() === knownSystems)
+    expect(gameStateInstance.player === player)
+    expect(gameStateInstance.knownSystems === knownSystems)
   })
 })
