@@ -49,7 +49,14 @@ export class Player {
         starSystem: startingSystem,
         coords: { x: 0, y: 0, z: 0 },
       })
-      this._currentShip = new Ship({ hitPoints: 100 })
+      this._currentShip = new Ship({
+        coords: {
+          x: this.location.coords.x,
+          y: this.location.coords.y,
+          z: this.location.coords.z,
+        },
+        hitPoints: 100,
+      })
       this._storedShips = []
     }
   }

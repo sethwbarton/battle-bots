@@ -21,9 +21,20 @@ describe('Player', () => {
     expect(playerUnderTest.currentShip.hitPoints == 100)
     expect(playerUnderTest.storedShips.length === 0)
   })
-  it('should initialize a new plyer when no state object is passed with defaults', () => {
+  it('should initialize with defaults when no state object is passed', () => {
     const playerUnderTest = new Player()
     expect(playerUnderTest.currentShip.hitPoints == 100)
     expect(playerUnderTest.storedShips.length === 0)
+  })
+  it('should initialize the player ship coords the same as the player coords', () => {
+    const playerUnderTest = new Player()
+    expect(
+      playerUnderTest.currentShip.coords.x ==
+        playerUnderTest.location.coords.x &&
+        playerUnderTest.currentShip.coords.y ===
+          playerUnderTest.location.coords.y &&
+        playerUnderTest.currentShip.coords.z ===
+          playerUnderTest.location.coords.z
+    )
   })
 })
