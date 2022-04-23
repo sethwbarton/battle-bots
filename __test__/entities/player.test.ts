@@ -16,11 +16,13 @@ describe('Player', () => {
     const playerUnderTest = new Player({
       storedShips: [],
       currentShip: ship,
-      location: new PlayerLocation({ planet: planet, starSystem: system }),
+      location: new PlayerLocation({
+        starSystem: system,
+        coords: { x: 0, y: 0, z: 0 },
+      }),
     })
     expect(playerUnderTest.currentShip.hitPoints == 100)
     expect(playerUnderTest.storedShips.length === 0)
-    expect(playerUnderTest.location.planet?.name === 'MyPlanet')
     expect(playerUnderTest.location.starSystem.planets.length === 1)
     expect(playerUnderTest.location.starSystem.planets[0].name === 'MyPlanet')
   })
@@ -28,7 +30,6 @@ describe('Player', () => {
     const playerUnderTest = new Player()
     expect(playerUnderTest.currentShip.hitPoints == 100)
     expect(playerUnderTest.storedShips.length === 0)
-    expect(playerUnderTest.location.planet?.name === 'Earth')
     expect(playerUnderTest.location.starSystem.planets.length === 1)
   })
 })

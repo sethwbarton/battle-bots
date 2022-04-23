@@ -44,14 +44,14 @@ export class Player {
       this._currentShip = state.currentShip
       this._storedShips = state.storedShips
     } else {
-      const startingPlanet = new Planet({ name: 'Earth' })
+      const planet = new Planet({ name: 'Earth' })
       const startingSystem = new StarSystem({
-        planets: [startingPlanet],
+        planets: [planet],
         name: 'Sol',
       })
       this._location = new PlayerLocation({
-        planet: startingPlanet,
         starSystem: startingSystem,
+        coords: { x: 0, y: 0, z: 0 },
       })
       this._currentShip = new Ship({ hitPoints: 100 })
       this._storedShips = []
