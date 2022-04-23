@@ -13,7 +13,11 @@ export class Ship {
     this._hitPoints = value
   }
 
-  constructor(state: NewShipParams) {
-    this._hitPoints = state.hitPoints
+  constructor(state?: NewShipParams) {
+    if (state) {
+      this._hitPoints = state.hitPoints
+    } else {
+      this._hitPoints = 100
+    }
   }
 }

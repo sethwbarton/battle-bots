@@ -6,4 +6,8 @@ describe('Ship', () => {
     const shipUnderTest = new Ship({ hitPoints: 100 })
     expect(shipUnderTest.hitPoints === 100)
   })
+  it('should initialize without a passed state object', () => {
+    const shipUnderTest = new Ship()
+    expect(shipUnderTest.hitPoints === 100)
+  })
 })

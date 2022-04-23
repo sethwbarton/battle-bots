@@ -1,12 +1,15 @@
 import { describe, expect, it } from 'tiny-test-framework/dist/src'
 import { PlayerLocation } from '../../src/entities/player_location'
-import { Planet } from '../../src/entities/planet'
 import { StarSystem } from '../../src/entities/star_system'
 
 describe('Player Location', () => {
   it('should initialize with a passed state object', () => {
     const playerUnderTest = new PlayerLocation({
-      starSystem: new StarSystem({ name: 'Beetleguise', planets: [] }),
+      starSystem: new StarSystem({
+        name: 'Beetleguise',
+        planets: [],
+        galacticCoords: { x: 1, z: 1, y: 1 },
+      }),
       coords: { x: 50, y: 50, z: 50 },
     })
     expect(playerUnderTest.starSystem?.name === 'Beetleguise')

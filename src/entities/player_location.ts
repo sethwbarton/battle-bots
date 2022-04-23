@@ -31,8 +31,8 @@ export class PlayerLocation {
       this._starSystem = state.starSystem
       this._coords = state.coords
     } else {
-      const earth = new Planet({ name: 'Earth' })
-      this._starSystem = new StarSystem({ name: 'Sol', planets: [earth] })
+      const earth = new Planet()
+      this._starSystem = new StarSystem()
       this._coords = { x: 100, y: 100, z: 100 }
     }
   }

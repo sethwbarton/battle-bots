@@ -44,11 +44,7 @@ export class Player {
       this._currentShip = state.currentShip
       this._storedShips = state.storedShips
     } else {
-      const planet = new Planet({ name: 'Earth' })
-      const startingSystem = new StarSystem({
-        planets: [planet],
-        name: 'Sol',
-      })
+      const startingSystem = new StarSystem()
       this._location = new PlayerLocation({
         starSystem: startingSystem,
         coords: { x: 0, y: 0, z: 0 },
