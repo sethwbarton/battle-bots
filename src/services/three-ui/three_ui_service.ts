@@ -72,11 +72,11 @@ export class ThreeUiService implements UiService {
   }
 
   private renderCurrentSystem(currentStarSystem: StarSystem) {
-    // const starGeometry = new THREE.SphereGeometry(10)
-    // const starMaterial = new THREE.MeshBasicMaterial({ color: 'yellow' })
-    // const star = new Mesh(starGeometry, starMaterial)
-    // star.position.set(0, 0, 0)
-    // this.scene.add(star)
+    const starGeometry = new THREE.SphereGeometry(10)
+    const starMaterial = new THREE.MeshBasicMaterial({ color: 'yellow' })
+    const star = new Mesh(starGeometry, starMaterial)
+    star.position.set(0, 0, 0)
+    this.scene.add(star)
   }
 
   private renderPlayerShip(ship: Ship) {
