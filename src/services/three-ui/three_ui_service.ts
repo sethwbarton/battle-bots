@@ -34,13 +34,6 @@ export class ThreeUiService implements UiService {
   private controls = new OrbitControls(this.camera, this.renderer.domElement)
 
   constructor() {
-    // Adding in a white ambient light
-    console.log('constructor')
-    const color = 0xffffff
-    const intensity = 1
-    const light = new AmbientLight(color, intensity)
-    this.scene.add(light)
-
     this.renderer.setSize(innerWidth, innerHeight)
     this.renderer.setClearColor(new Color('rgb(100,100,100)'))
     this.clock = new Clock()
@@ -80,7 +73,7 @@ export class ThreeUiService implements UiService {
   }
 
   private renderPlayerShip(ship: Ship) {
-    const geometry = new THREE.CapsuleGeometry(1, 1, 4, 8)
+    const geometry = new THREE.ConeGeometry(5, 20, 32)
     const material = new MeshBasicMaterial({ color: 0x00ff00 })
     const capsule = new Mesh(geometry, material)
     capsule.position.set(ship.coords.x, ship.coords.y, ship.coords.z)
