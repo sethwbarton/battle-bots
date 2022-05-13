@@ -35,9 +35,9 @@ export class ThreeUiService implements UiService {
 
   constructor() {
     this.renderer.setSize(innerWidth, innerHeight)
-    this.renderer.setClearColor(new Color('rgb(100,100,100)'))
+    this.renderer.setClearColor(new Color('rgb(0,0,0)'))
     this.clock = new Clock()
-    this.scene.add(new THREE.AxesHelper(100))
+    this.scene.add(new THREE.AxesHelper(100000))
     this.renderGameState(BattleBotsGameState.getInstance())
   }
 
@@ -73,9 +73,10 @@ export class ThreeUiService implements UiService {
   }
 
   private renderPlayerShip(ship: Ship) {
-    const geometry = new THREE.ConeGeometry(5, 20, 32)
-    const material = new MeshBasicMaterial({ color: 0x00ff00 })
-    const capsule = new Mesh(geometry, material)
+    const geometry = new THREE.ConeGeometry(2, 5, 50)
+    const wireframe = new THREE.WireframeGeometry(geometry)
+    const material = new MeshBasicMaterial({ color: 0xffffff })
+    const capsule = new Mesh(wireframe, material)
     capsule.position.set(ship.coords.x, ship.coords.y, ship.coords.z)
     this.scene.add(capsule)
   }
