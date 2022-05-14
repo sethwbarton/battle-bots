@@ -3,31 +3,73 @@ import { GameState } from '../game/game-state'
 import { prompt } from 'enquirer'
 import { Command } from '../game/command'
 
+const COLOR_RESET_CODE = '\x1b[0m'
+const RED_COLOR_CODE = '\x1b[31m'
+const GREEN_COLOR_CODE = '\x1b[32m'
+
 export async function drawGameState(gameState: GameState) {
   const table = new Table({
+    head: [
+      ' ',
+      'A',
+      'B',
+      'C',
+      'D',
+      'E',
+      'F',
+      'G',
+      'H',
+      'I',
+      'J',
+      'K',
+      'L',
+      'M',
+      'N',
+      'O',
+      'P',
+    ],
+
     chars: {
-      top: '',
-      'top-mid': '',
-      'top-left': '',
-      'top-right': '',
-      bottom: '',
-      'bottom-mid': '',
-      'bottom-left': '',
-      'bottom-right': '',
-      left: '',
-      'left-mid': '',
-      mid: '',
-      'mid-mid': '',
-      right: '',
-      'right-mid': '',
-      middle: ' ',
+      top: '═',
+      'top-mid': '╤',
+      'top-left': '╔',
+      'top-right': '╗',
+      bottom: '═',
+      'bottom-mid': '╧',
+      'bottom-left': '╚',
+      'bottom-right': '╝',
+      left: '║',
+      'left-mid': '╟',
+      mid: '─',
+      'mid-mid': '┼',
+      right: '║',
+      'right-mid': '╢',
+      middle: '│',
     },
   })
 
   // Start with a scene of only spaces
   const rows = []
   for (let i = 0; i < 10; i += 1) {
-    rows.push([' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '])
+    rows.push([
+      `${i}`,
+      ' ',
+      ' ',
+      ' ',
+      ' ',
+      ' ',
+      ' ',
+      ' ',
+      ' ',
+      ' ',
+      ' ',
+      ' ',
+      ' ',
+      ' ',
+      ' ',
+      ' ',
+      ' ',
+    ])
   }
 
   // Render each drawable with their character in their positions into the rows
