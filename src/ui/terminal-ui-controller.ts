@@ -2,6 +2,7 @@ import Table from 'cli-table'
 import { GameState } from '../game/game-state'
 import { prompt } from 'enquirer'
 import { Command } from '../game/command'
+import { Drawable } from '../game/drawable'
 
 const COLOR_RESET_CODE = '\x1b[0m'
 const RED_COLOR_CODE = '\x1b[31m'
@@ -52,7 +53,7 @@ export async function drawGameState(gameState: GameState) {
   })
 
   // Start with a scene of only spaces
-  const rows = []
+  const rows: string[][] = []
   for (let i = 0; i < 10; i += 1) {
     rows.push([
       `${i}`,
@@ -81,6 +82,10 @@ export async function drawGameState(gameState: GameState) {
   const playerSymbol = gameState.player.symbol
 
   rows[playerY][playerX] = playerSymbol
+
+  gameState.currentScene.drawables.forEach((drawable: Drawable) => {
+    rows[drawable.coords.y][drawable.coords.x] = drawable.symbol
+  })
 
   // Put the rows into our table
   for (const row of rows) {
