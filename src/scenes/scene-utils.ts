@@ -1,6 +1,9 @@
 import { Scene } from '../game/scene'
 import { Drawable } from '../game/drawable'
 import { DEFAULT_WALL_HITPOINTS, Wall } from '../game/wall'
+import { Bed, DEFAULT_BED_HITPOINTS } from '../game/bed'
+import * as fs from 'fs'
+import { botnikJailCenter } from './scene-ui-drawings/botnik-jail-center-drawing'
 
 export const symbolToObjectFactoryMapping: Record<
   string,
@@ -8,6 +11,7 @@ export const symbolToObjectFactoryMapping: Record<
 > = {
   '-': makeHorizontalWall,
   '|': makeVerticalWall,
+  Ξ: makeBed,
 }
 
 export function uiArrayToSceneObject(uiArray: string[][], id: string): Scene {
@@ -15,11 +19,33 @@ export function uiArrayToSceneObject(uiArray: string[][], id: string): Scene {
   uiArray.forEach((row, rowIndex) => {
     row.forEach((cell, colIndex) => {
       if (cell != ' ') {
-        drawables.push(symbolToObjectFactoryMapping[cell](colIndex, rowIndex))
+        if (!symbolToObjectFactoryMapping[cell]) {
+          console.log("I don't know how to make on of those! Symbol: " + cell)
+        } else {
+          drawables.push(symbolToObjectFactoryMapping[cell](colIndex, rowIndex))
+        }
       }
     })
   })
   return { drawables, id }
+}
+
+// Here's how you use this.
+writeSceneToJsonFile(uiArrayToSceneObject(botnikJailCenter, 'botnik-jail-1'))
+
+/**
+ * Writes the scene to a json file in the scene-json-files folder.
+ * The name of the file is the id of the scene.
+ * @param scene
+ */
+export function writeSceneToJsonFile(scene: Scene) {
+  fs.writeFile(
+    `src/scenes/scene-json-files/${scene.id}.json`,
+    JSON.stringify(scene, null, 2),
+    () => {
+      console.log('finished created scene ' + scene.id)
+    }
+  )
 }
 
 function makeHorizontalWall(x: number, y: number): Wall {
@@ -37,6 +63,15 @@ function makeVerticalWall(x: number, y: number): Wall {
     symbol: '|',
     collidable: true,
     hitpoints: DEFAULT_WALL_HITPOINTS,
+  }
+}
+
+function makeBed(x: number, y: number): Bed {
+  return {
+    coords: { x, y },
+    symbol: 'Ξ',
+    collidable: false,
+    hitpoints: DEFAULT_BED_HITPOINTS,
   }
 }
 
