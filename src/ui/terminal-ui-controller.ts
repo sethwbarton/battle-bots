@@ -32,7 +32,6 @@ export async function drawGameState(gameState: GameState) {
       'O',
       'P',
     ],
-
     chars: {
       top: '═',
       'top-mid': '╤',
