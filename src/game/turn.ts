@@ -19,28 +19,28 @@ export async function doPlayerTurn(
   const command = await uiController.getCommand()
   switch (command) {
     case Command.MoveDown:
-      gameState.player = await movePlayerDown(gameState.player)
+      gameState = await movePlayerDown(gameState)
       break
     case Command.MoveUp:
-      gameState.player = await movePlayerUp(gameState.player)
+      gameState = await movePlayerUp(gameState)
       break
     case Command.MoveLeft:
-      gameState.player = await movePlayerLeft(gameState.player)
+      gameState = await movePlayerLeft(gameState)
       break
     case Command.MoveRight:
-      gameState.player = await movePlayerRight(gameState.player)
+      gameState = await movePlayerRight(gameState)
       break
     case Command.MoveDownRight:
-      gameState.player = await movePlayerDownRight(gameState.player)
+      gameState = await movePlayerDownRight(gameState)
       break
     case Command.MoveDownLeft:
-      gameState.player = await movePlayerDownLeft(gameState.player)
+      gameState = await movePlayerDownLeft(gameState)
       break
     case Command.MoveUpRight:
-      gameState.player = await movePlayerUpRight(gameState.player)
+      gameState = await movePlayerUpRight(gameState)
       break
     case Command.MoveUpLeft:
-      gameState.player = await movePlayerUpLeft(gameState.player)
+      gameState = await movePlayerUpLeft(gameState)
       break
   }
   return gameState
