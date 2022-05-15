@@ -1,23 +1,83 @@
 import { Scene } from '../../game/scene'
 import { uiArrayToSceneObject } from '../scene-utils'
+import { DEFAULT_WALL_HITPOINTS, Wall } from '../../game/wall'
 
 describe('Scene Utils', () => {
   describe('UiArrayToSceneObject', () => {
-    it('Translates an array in the form of a 10x17 grid into a JSON object representing a scene', () => {
-      const botnikJailCenterScene = [
-        [' ', 'x', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' , ' ', ' ', ' ', ' ', ' '],
+    it('Translates vertical walls', () => {
+      const exampleScene = [
+        //prettier-ignore
+        [' ', '|', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' , ' ', ' ', ' ', ' ', ' '],
+        //prettier-ignore
         [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' , ' ', ' ', ' ', ' ', ' '],
+        //prettier-ignore
         [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' , ' ', ' ', ' ', ' ', ' '],
+        //prettier-ignore
         [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' , ' ', ' ', ' ', ' ', ' '],
+        //prettier-ignore
         [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' , ' ', ' ', ' ', ' ', ' '],
+        //prettier-ignore
         [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' , ' ', ' ', ' ', ' ', ' '],
+        //prettier-ignore
         [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' , ' ', ' ', ' ', ' ', ' '],
+        //prettier-ignore
         [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' , ' ', ' ', ' ', ' ', ' '],
+        //prettier-ignore
         [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' , ' ', ' ', ' ', ' ', ' '],
+        //prettier-ignore
         [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' , ' ', ' ', ' ', ' ', ' '],
       ]
-      const expectedSceneObject: Scene = { drawables: [{coords: {x: 1, y: 0}, symbol: 'x'}], id: 0 }
-      expect(uiArrayToSceneObject(botnikJailCenterScene)).toEqual(expectedSceneObject)
+      const wall: Wall = {
+        collidable: true,
+        coords: { x: 1, y: 0 },
+        symbol: '|',
+        hitpoints: DEFAULT_WALL_HITPOINTS,
+      }
+      const expectedSceneObject: Scene = {
+        drawables: [wall],
+        id: '',
+      }
+      expect(uiArrayToSceneObject(exampleScene, '')).toEqual(
+        expectedSceneObject
+      )
+    })
+
+    it('Translates horizontal walls', () => {
+      const exampleScene = [
+        //prettier-ignore
+        [' ', '-', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' , ' ', ' ', ' ', ' ', ' '],
+        //prettier-ignore
+        [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' , ' ', ' ', ' ', ' ', ' '],
+        //prettier-ignore
+        [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' , ' ', ' ', ' ', ' ', ' '],
+        //prettier-ignore
+        [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' , ' ', ' ', ' ', ' ', ' '],
+        //prettier-ignore
+        [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' , ' ', ' ', ' ', ' ', ' '],
+        //prettier-ignore
+        [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' , ' ', ' ', ' ', ' ', ' '],
+        //prettier-ignore
+        [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' , ' ', ' ', ' ', ' ', ' '],
+        //prettier-ignore
+        [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' , ' ', ' ', ' ', ' ', ' '],
+        //prettier-ignore
+        [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' , ' ', ' ', ' ', ' ', ' '],
+        //prettier-ignore
+        [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' , ' ', ' ', ' ', ' ', ' '],
+      ]
+      const wall: Wall = {
+        collidable: true,
+        coords: { x: 1, y: 0 },
+        symbol: '-',
+        hitpoints: DEFAULT_WALL_HITPOINTS,
+      }
+      const expectedSceneObject: Scene = {
+        drawables: [wall],
+        id: '',
+      }
+      expect(uiArrayToSceneObject(exampleScene, '')).toEqual(
+        expectedSceneObject
+      )
     })
   })
 })

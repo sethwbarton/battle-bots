@@ -24,7 +24,7 @@ async function gameLoop() {
 async function makeNewGameState(): Promise<GameState> {
   return {
     player: {
-      coords: { x: 5, y: 5 },
+      coords: { x: 7, y: 7 },
       symbol: STARTING_PLAYER_SYMBOL,
     },
     world: {

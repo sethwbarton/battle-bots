@@ -1,7 +1,7 @@
 import { Drawable } from './drawable'
 
 export interface Scene {
-  id: number
+  id: string
   children?: Scene[]
   north?: Scene
   south?: Scene
