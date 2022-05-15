@@ -7,6 +7,9 @@ const COLOR_RESET_CODE = '\x1b[0m'
 const RED_COLOR_CODE = '\x1b[31m'
 const GREEN_COLOR_CODE = '\x1b[32m'
 
+export const NUM_ROWS_PER_SCENE = 10
+export const NUM_COLS_PER_SCENE = 17
+
 export async function drawGameState(gameState: GameState) {
   const table = new Table({
     head: [
