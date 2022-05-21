@@ -1,4 +1,6 @@
-import { Drawable } from './drawable'
+import { Bed } from './bed'
+import { Door } from './door'
+import { Wall } from './wall'
 
 export interface Scene {
   id: string
@@ -7,5 +9,7 @@ export interface Scene {
   south?: Scene
   east?: Scene
   west?: Scene
-  drawables: Drawable[]
+  beds?: Bed[]
+  doors?: Door[]
+  walls?: Wall[]
 }

@@ -1,14 +1,5 @@
 {
-  "drawables": [
-    {
-      "coords": {
-        "x": 1,
-        "y": 0
-      },
-      "symbol": "Ξ",
-      "collidable": false,
-      "hitpoints": 100
-    },
+  "walls": [
     {
       "coords": {
         "x": 2,
@@ -17,6 +8,458 @@
       "symbol": "|",
       "collidable": true,
       "hitpoints": 100000000
+    },
+    {
+      "coords": {
+        "x": 5,
+        "y": 0
+      },
+      "symbol": "|",
+      "collidable": true,
+      "hitpoints": 100000000
+    },
+    {
+      "coords": {
+        "x": 8,
+        "y": 0
+      },
+      "symbol": "|",
+      "collidable": true,
+      "hitpoints": 100000000
+    },
+    {
+      "coords": {
+        "x": 11,
+        "y": 0
+      },
+      "symbol": "|",
+      "collidable": true,
+      "hitpoints": 100000000
+    },
+    {
+      "coords": {
+        "x": 14,
+        "y": 0
+      },
+      "symbol": "|",
+      "collidable": true,
+      "hitpoints": 100000000
+    },
+    {
+      "coords": {
+        "x": 2,
+        "y": 1
+      },
+      "symbol": "|",
+      "collidable": true,
+      "hitpoints": 100000000
+    },
+    {
+      "coords": {
+        "x": 5,
+        "y": 1
+      },
+      "symbol": "|",
+      "collidable": true,
+      "hitpoints": 100000000
+    },
+    {
+      "coords": {
+        "x": 8,
+        "y": 1
+      },
+      "symbol": "|",
+      "collidable": true,
+      "hitpoints": 100000000
+    },
+    {
+      "coords": {
+        "x": 11,
+        "y": 1
+      },
+      "symbol": "|",
+      "collidable": true,
+      "hitpoints": 100000000
+    },
+    {
+      "coords": {
+        "x": 14,
+        "y": 1
+      },
+      "symbol": "|",
+      "collidable": true,
+      "hitpoints": 100000000
+    },
+    {
+      "coords": {
+        "x": 2,
+        "y": 2
+      },
+      "symbol": "|",
+      "collidable": true,
+      "hitpoints": 100000000
+    },
+    {
+      "coords": {
+        "x": 5,
+        "y": 2
+      },
+      "symbol": "|",
+      "collidable": true,
+      "hitpoints": 100000000
+    },
+    {
+      "coords": {
+        "x": 8,
+        "y": 2
+      },
+      "symbol": "|",
+      "collidable": true,
+      "hitpoints": 100000000
+    },
+    {
+      "coords": {
+        "x": 11,
+        "y": 2
+      },
+      "symbol": "|",
+      "collidable": true,
+      "hitpoints": 100000000
+    },
+    {
+      "coords": {
+        "x": 14,
+        "y": 2
+      },
+      "symbol": "|",
+      "collidable": true,
+      "hitpoints": 100000000
+    },
+    {
+      "coords": {
+        "x": 2,
+        "y": 3
+      },
+      "symbol": "-",
+      "collidable": true,
+      "hitpoints": 100000000
+    },
+    {
+      "coords": {
+        "x": 3,
+        "y": 3
+      },
+      "symbol": "-",
+      "collidable": true,
+      "hitpoints": 100000000
+    },
+    {
+      "coords": {
+        "x": 5,
+        "y": 3
+      },
+      "symbol": "-",
+      "collidable": true,
+      "hitpoints": 100000000
+    },
+    {
+      "coords": {
+        "x": 6,
+        "y": 3
+      },
+      "symbol": "-",
+      "collidable": true,
+      "hitpoints": 100000000
+    },
+    {
+      "coords": {
+        "x": 8,
+        "y": 3
+      },
+      "symbol": "-",
+      "collidable": true,
+      "hitpoints": 100000000
+    },
+    {
+      "coords": {
+        "x": 9,
+        "y": 3
+      },
+      "symbol": "-",
+      "collidable": true,
+      "hitpoints": 100000000
+    },
+    {
+      "coords": {
+        "x": 11,
+        "y": 3
+      },
+      "symbol": "-",
+      "collidable": true,
+      "hitpoints": 100000000
+    },
+    {
+      "coords": {
+        "x": 12,
+        "y": 3
+      },
+      "symbol": "-",
+      "collidable": true,
+      "hitpoints": 100000000
+    },
+    {
+      "coords": {
+        "x": 14,
+        "y": 3
+      },
+      "symbol": "-",
+      "collidable": true,
+      "hitpoints": 100000000
+    },
+    {
+      "coords": {
+        "x": 15,
+        "y": 3
+      },
+      "symbol": "-",
+      "collidable": true,
+      "hitpoints": 100000000
+    },
+    {
+      "coords": {
+        "x": 2,
+        "y": 6
+      },
+      "symbol": "-",
+      "collidable": true,
+      "hitpoints": 100000000
+    },
+    {
+      "coords": {
+        "x": 3,
+        "y": 6
+      },
+      "symbol": "-",
+      "collidable": true,
+      "hitpoints": 100000000
+    },
+    {
+      "coords": {
+        "x": 5,
+        "y": 6
+      },
+      "symbol": "-",
+      "collidable": true,
+      "hitpoints": 100000000
+    },
+    {
+      "coords": {
+        "x": 6,
+        "y": 6
+      },
+      "symbol": "-",
+      "collidable": true,
+      "hitpoints": 100000000
+    },
+    {
+      "coords": {
+        "x": 8,
+        "y": 6
+      },
+      "symbol": "-",
+      "collidable": true,
+      "hitpoints": 100000000
+    },
+    {
+      "coords": {
+        "x": 9,
+        "y": 6
+      },
+      "symbol": "-",
+      "collidable": true,
+      "hitpoints": 100000000
+    },
+    {
+      "coords": {
+        "x": 11,
+        "y": 6
+      },
+      "symbol": "-",
+      "collidable": true,
+      "hitpoints": 100000000
+    },
+    {
+      "coords": {
+        "x": 12,
+        "y": 6
+      },
+      "symbol": "-",
+      "collidable": true,
+      "hitpoints": 100000000
+    },
+    {
+      "coords": {
+        "x": 14,
+        "y": 6
+      },
+      "symbol": "-",
+      "collidable": true,
+      "hitpoints": 100000000
+    },
+    {
+      "coords": {
+        "x": 15,
+        "y": 6
+      },
+      "symbol": "-",
+      "collidable": true,
+      "hitpoints": 100000000
+    },
+    {
+      "coords": {
+        "x": 2,
+        "y": 7
+      },
+      "symbol": "|",
+      "collidable": true,
+      "hitpoints": 100000000
+    },
+    {
+      "coords": {
+        "x": 5,
+        "y": 7
+      },
+      "symbol": "|",
+      "collidable": true,
+      "hitpoints": 100000000
+    },
+    {
+      "coords": {
+        "x": 8,
+        "y": 7
+      },
+      "symbol": "|",
+      "collidable": true,
+      "hitpoints": 100000000
+    },
+    {
+      "coords": {
+        "x": 11,
+        "y": 7
+      },
+      "symbol": "|",
+      "collidable": true,
+      "hitpoints": 100000000
+    },
+    {
+      "coords": {
+        "x": 14,
+        "y": 7
+      },
+      "symbol": "|",
+      "collidable": true,
+      "hitpoints": 100000000
+    },
+    {
+      "coords": {
+        "x": 2,
+        "y": 8
+      },
+      "symbol": "|",
+      "collidable": true,
+      "hitpoints": 100000000
+    },
+    {
+      "coords": {
+        "x": 5,
+        "y": 8
+      },
+      "symbol": "|",
+      "collidable": true,
+      "hitpoints": 100000000
+    },
+    {
+      "coords": {
+        "x": 8,
+        "y": 8
+      },
+      "symbol": "|",
+      "collidable": true,
+      "hitpoints": 100000000
+    },
+    {
+      "coords": {
+        "x": 11,
+        "y": 8
+      },
+      "symbol": "|",
+      "collidable": true,
+      "hitpoints": 100000000
+    },
+    {
+      "coords": {
+        "x": 14,
+        "y": 8
+      },
+      "symbol": "|",
+      "collidable": true,
+      "hitpoints": 100000000
+    },
+    {
+      "coords": {
+        "x": 2,
+        "y": 9
+      },
+      "symbol": "|",
+      "collidable": true,
+      "hitpoints": 100000000
+    },
+    {
+      "coords": {
+        "x": 5,
+        "y": 9
+      },
+      "symbol": "|",
+      "collidable": true,
+      "hitpoints": 100000000
+    },
+    {
+      "coords": {
+        "x": 8,
+        "y": 9
+      },
+      "symbol": "|",
+      "collidable": true,
+      "hitpoints": 100000000
+    },
+    {
+      "coords": {
+        "x": 11,
+        "y": 9
+      },
+      "symbol": "|",
+      "collidable": true,
+      "hitpoints": 100000000
+    },
+    {
+      "coords": {
+        "x": 14,
+        "y": 9
+      },
+      "symbol": "|",
+      "collidable": true,
+      "hitpoints": 100000000
+    }
+  ],
+  "beds": [
+    {
+      "coords": {
+        "x": 1,
+        "y": 0
+      },
+      "symbol": "Ξ",
+      "collidable": false,
+      "hitpoints": 100
     },
     {
       "coords": {
@@ -29,30 +472,12 @@
     },
     {
       "coords": {
-        "x": 5,
-        "y": 0
-      },
-      "symbol": "|",
-      "collidable": true,
-      "hitpoints": 100000000
-    },
-    {
-      "coords": {
         "x": 7,
         "y": 0
       },
       "symbol": "Ξ",
       "collidable": false,
       "hitpoints": 100
-    },
-    {
-      "coords": {
-        "x": 8,
-        "y": 0
-      },
-      "symbol": "|",
-      "collidable": true,
-      "hitpoints": 100000000
     },
     {
       "coords": {
@@ -65,30 +490,12 @@
     },
     {
       "coords": {
-        "x": 11,
-        "y": 0
-      },
-      "symbol": "|",
-      "collidable": true,
-      "hitpoints": 100000000
-    },
-    {
-      "coords": {
         "x": 13,
         "y": 0
       },
       "symbol": "Ξ",
       "collidable": false,
       "hitpoints": 100
-    },
-    {
-      "coords": {
-        "x": 14,
-        "y": 0
-      },
-      "symbol": "|",
-      "collidable": true,
-      "hitpoints": 100000000
     },
     {
       "coords": {
@@ -101,366 +508,6 @@
     },
     {
       "coords": {
-        "x": 2,
-        "y": 1
-      },
-      "symbol": "|",
-      "collidable": true,
-      "hitpoints": 100000000
-    },
-    {
-      "coords": {
-        "x": 5,
-        "y": 1
-      },
-      "symbol": "|",
-      "collidable": true,
-      "hitpoints": 100000000
-    },
-    {
-      "coords": {
-        "x": 8,
-        "y": 1
-      },
-      "symbol": "|",
-      "collidable": true,
-      "hitpoints": 100000000
-    },
-    {
-      "coords": {
-        "x": 11,
-        "y": 1
-      },
-      "symbol": "|",
-      "collidable": true,
-      "hitpoints": 100000000
-    },
-    {
-      "coords": {
-        "x": 14,
-        "y": 1
-      },
-      "symbol": "|",
-      "collidable": true,
-      "hitpoints": 100000000
-    },
-    {
-      "coords": {
-        "x": 2,
-        "y": 2
-      },
-      "symbol": "|",
-      "collidable": true,
-      "hitpoints": 100000000
-    },
-    {
-      "coords": {
-        "x": 5,
-        "y": 2
-      },
-      "symbol": "|",
-      "collidable": true,
-      "hitpoints": 100000000
-    },
-    {
-      "coords": {
-        "x": 8,
-        "y": 2
-      },
-      "symbol": "|",
-      "collidable": true,
-      "hitpoints": 100000000
-    },
-    {
-      "coords": {
-        "x": 11,
-        "y": 2
-      },
-      "symbol": "|",
-      "collidable": true,
-      "hitpoints": 100000000
-    },
-    {
-      "coords": {
-        "x": 14,
-        "y": 2
-      },
-      "symbol": "|",
-      "collidable": true,
-      "hitpoints": 100000000
-    },
-    {
-      "coords": {
-        "x": 2,
-        "y": 3
-      },
-      "symbol": "-",
-      "collidable": true,
-      "hitpoints": 100000000
-    },
-    {
-      "coords": {
-        "x": 3,
-        "y": 3
-      },
-      "symbol": "-",
-      "collidable": true,
-      "hitpoints": 100000000
-    },
-    {
-      "coords": {
-        "x": 5,
-        "y": 3
-      },
-      "symbol": "-",
-      "collidable": true,
-      "hitpoints": 100000000
-    },
-    {
-      "coords": {
-        "x": 6,
-        "y": 3
-      },
-      "symbol": "-",
-      "collidable": true,
-      "hitpoints": 100000000
-    },
-    {
-      "coords": {
-        "x": 8,
-        "y": 3
-      },
-      "symbol": "-",
-      "collidable": true,
-      "hitpoints": 100000000
-    },
-    {
-      "coords": {
-        "x": 9,
-        "y": 3
-      },
-      "symbol": "-",
-      "collidable": true,
-      "hitpoints": 100000000
-    },
-    {
-      "coords": {
-        "x": 11,
-        "y": 3
-      },
-      "symbol": "-",
-      "collidable": true,
-      "hitpoints": 100000000
-    },
-    {
-      "coords": {
-        "x": 12,
-        "y": 3
-      },
-      "symbol": "-",
-      "collidable": true,
-      "hitpoints": 100000000
-    },
-    {
-      "coords": {
-        "x": 14,
-        "y": 3
-      },
-      "symbol": "-",
-      "collidable": true,
-      "hitpoints": 100000000
-    },
-    {
-      "coords": {
-        "x": 15,
-        "y": 3
-      },
-      "symbol": "-",
-      "collidable": true,
-      "hitpoints": 100000000
-    },
-    {
-      "coords": {
-        "x": 2,
-        "y": 6
-      },
-      "symbol": "-",
-      "collidable": true,
-      "hitpoints": 100000000
-    },
-    {
-      "coords": {
-        "x": 3,
-        "y": 6
-      },
-      "symbol": "-",
-      "collidable": true,
-      "hitpoints": 100000000
-    },
-    {
-      "coords": {
-        "x": 5,
-        "y": 6
-      },
-      "symbol": "-",
-      "collidable": true,
-      "hitpoints": 100000000
-    },
-    {
-      "coords": {
-        "x": 6,
-        "y": 6
-      },
-      "symbol": "-",
-      "collidable": true,
-      "hitpoints": 100000000
-    },
-    {
-      "coords": {
-        "x": 8,
-        "y": 6
-      },
-      "symbol": "-",
-      "collidable": true,
-      "hitpoints": 100000000
-    },
-    {
-      "coords": {
-        "x": 9,
-        "y": 6
-      },
-      "symbol": "-",
-      "collidable": true,
-      "hitpoints": 100000000
-    },
-    {
-      "coords": {
-        "x": 11,
-        "y": 6
-      },
-      "symbol": "-",
-      "collidable": true,
-      "hitpoints": 100000000
-    },
-    {
-      "coords": {
-        "x": 12,
-        "y": 6
-      },
-      "symbol": "-",
-      "collidable": true,
-      "hitpoints": 100000000
-    },
-    {
-      "coords": {
-        "x": 14,
-        "y": 6
-      },
-      "symbol": "-",
-      "collidable": true,
-      "hitpoints": 100000000
-    },
-    {
-      "coords": {
-        "x": 15,
-        "y": 6
-      },
-      "symbol": "-",
-      "collidable": true,
-      "hitpoints": 100000000
-    },
-    {
-      "coords": {
-        "x": 2,
-        "y": 7
-      },
-      "symbol": "|",
-      "collidable": true,
-      "hitpoints": 100000000
-    },
-    {
-      "coords": {
-        "x": 5,
-        "y": 7
-      },
-      "symbol": "|",
-      "collidable": true,
-      "hitpoints": 100000000
-    },
-    {
-      "coords": {
-        "x": 8,
-        "y": 7
-      },
-      "symbol": "|",
-      "collidable": true,
-      "hitpoints": 100000000
-    },
-    {
-      "coords": {
-        "x": 11,
-        "y": 7
-      },
-      "symbol": "|",
-      "collidable": true,
-      "hitpoints": 100000000
-    },
-    {
-      "coords": {
-        "x": 14,
-        "y": 7
-      },
-      "symbol": "|",
-      "collidable": true,
-      "hitpoints": 100000000
-    },
-    {
-      "coords": {
-        "x": 2,
-        "y": 8
-      },
-      "symbol": "|",
-      "collidable": true,
-      "hitpoints": 100000000
-    },
-    {
-      "coords": {
-        "x": 5,
-        "y": 8
-      },
-      "symbol": "|",
-      "collidable": true,
-      "hitpoints": 100000000
-    },
-    {
-      "coords": {
-        "x": 8,
-        "y": 8
-      },
-      "symbol": "|",
-      "collidable": true,
-      "hitpoints": 100000000
-    },
-    {
-      "coords": {
-        "x": 11,
-        "y": 8
-      },
-      "symbol": "|",
-      "collidable": true,
-      "hitpoints": 100000000
-    },
-    {
-      "coords": {
-        "x": 14,
-        "y": 8
-      },
-      "symbol": "|",
-      "collidable": true,
-      "hitpoints": 100000000
-    },
-    {
-      "coords": {
         "x": 1,
         "y": 9
       },
@@ -470,30 +517,12 @@
     },
     {
       "coords": {
-        "x": 2,
-        "y": 9
-      },
-      "symbol": "|",
-      "collidable": true,
-      "hitpoints": 100000000
-    },
-    {
-      "coords": {
         "x": 3,
         "y": 9
       },
       "symbol": "Ξ",
       "collidable": false,
       "hitpoints": 100
-    },
-    {
-      "coords": {
-        "x": 5,
-        "y": 9
-      },
-      "symbol": "|",
-      "collidable": true,
-      "hitpoints": 100000000
     },
     {
       "coords": {
@@ -506,15 +535,6 @@
     },
     {
       "coords": {
-        "x": 8,
-        "y": 9
-      },
-      "symbol": "|",
-      "collidable": true,
-      "hitpoints": 100000000
-    },
-    {
-      "coords": {
         "x": 9,
         "y": 9
       },
@@ -524,30 +544,12 @@
     },
     {
       "coords": {
-        "x": 11,
-        "y": 9
-      },
-      "symbol": "|",
-      "collidable": true,
-      "hitpoints": 100000000
-    },
-    {
-      "coords": {
         "x": 12,
         "y": 9
       },
       "symbol": "Ξ",
       "collidable": false,
       "hitpoints": 100
-    },
-    {
-      "coords": {
-        "x": 14,
-        "y": 9
-      },
-      "symbol": "|",
-      "collidable": true,
-      "hitpoints": 100000000
     },
     {
       "coords": {

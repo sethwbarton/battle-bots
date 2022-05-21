@@ -1,37 +1,8 @@
 import { Scene } from '../game/scene'
-import { Drawable } from '../game/drawable'
 import { DEFAULT_WALL_HITPOINTS, Wall } from '../game/wall'
 import { Bed, DEFAULT_BED_HITPOINTS } from '../game/bed'
 import * as fs from 'fs'
-import { botnikJailCenter } from './scene-ui-drawings/botnik-jail-center-drawing'
-
-export const symbolToObjectFactoryMapping: Record<
-  string,
-  (x: number, y: number) => Drawable
-> = {
-  '-': makeHorizontalWall,
-  '|': makeVerticalWall,
-  Ξ: makeBed,
-}
-
-export function uiArrayToSceneObject(uiArray: string[][], id: string): Scene {
-  const drawables: Drawable[] = []
-  uiArray.forEach((row, rowIndex) => {
-    row.forEach((cell, colIndex) => {
-      if (cell != ' ') {
-        if (!symbolToObjectFactoryMapping[cell]) {
-          console.log("I don't know how to make on of those! Symbol: " + cell)
-        } else {
-          drawables.push(symbolToObjectFactoryMapping[cell](colIndex, rowIndex))
-        }
-      }
-    })
-  })
-  return { drawables, id }
-}
-
-// Here's how you use this.
-writeSceneToJsonFile(uiArrayToSceneObject(botnikJailCenter, 'botnik-jail-1'))
+import { append, assoc, filter, isEmpty } from 'ramda'
 
 /**
  * Writes the scene to a json file in the scene-json-files folder.
@@ -45,6 +16,69 @@ export function writeSceneToJsonFile(scene: Scene) {
     () => {
       console.log('finished created scene ' + scene.id)
     }
+  )
+}
+
+type SceneObjectsTracker = { walls: Wall[]; beds: Bed[] }
+
+export function uiArrayToSceneObject(uiArray: string[][], id: string): Scene {
+  let sceneObjects: SceneObjectsTracker = { walls: [], beds: [] }
+  uiArray.forEach((row, rowIndex) => {
+    row.forEach((cell, colIndex) => {
+      if (cell != ' ') {
+        sceneObjects = createSceneObjectFromCharacter(
+          cell,
+          sceneObjects,
+          colIndex,
+          rowIndex
+        )
+      }
+    })
+  })
+
+  return { ...filterEmptyArrays(sceneObjects), id }
+}
+
+function createSceneObjectFromCharacter(
+  objectCharacter: string,
+  currentSceneObjects: SceneObjectsTracker,
+  column: number,
+  row: number
+): SceneObjectsTracker {
+  switch (objectCharacter) {
+    case '-':
+      return assoc(
+        'walls',
+        append(makeHorizontalWall(column, row), currentSceneObjects.walls),
+        currentSceneObjects
+      )
+    case '|':
+      return assoc(
+        'walls',
+        append(makeVerticalWall(column, row), currentSceneObjects.walls),
+        currentSceneObjects
+      )
+    case 'Ξ':
+      return assoc(
+        'beds',
+        append(makeBed(column, row), currentSceneObjects.beds),
+        currentSceneObjects
+      )
+    default:
+      console.log(
+        "I don't know how to make one of those! Symbol: " + objectCharacter
+      )
+      return currentSceneObjects
+  }
+}
+
+function filterEmptyArrays(objectWithDrawables: {
+  beds: Bed[]
+  walls: Wall[]
+}) {
+  return filter(
+    (listOfDrawables) => !isEmpty(listOfDrawables),
+    objectWithDrawables
   )
 }
 
@@ -74,6 +108,3 @@ function makeBed(x: number, y: number): Bed {
     hitpoints: DEFAULT_BED_HITPOINTS,
   }
 }
-
-// To create a new scene I just have to make the drawing. Then this code creates all the members with their default values and writes them to JSON.
-// We can load in the JSON at the start of a new game for each scene. If I want something to be special in a scene, I just need to edit the JSON files.

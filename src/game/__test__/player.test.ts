@@ -16,7 +16,7 @@ import {
 } from '../../ui/terminal-ui-controller'
 
 const exampleGameState: GameState = {
-  currentScene: { id: '', drawables: [] },
+  currentScene: { id: '' },
   player: { coords: { x: 5, y: 5 }, symbol: 'P' },
   world: { scenes: [] },
 }

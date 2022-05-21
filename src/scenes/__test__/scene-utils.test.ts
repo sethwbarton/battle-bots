@@ -35,7 +35,7 @@ describe('Scene Utils', () => {
         hitpoints: DEFAULT_WALL_HITPOINTS,
       }
       const expectedSceneObject: Scene = {
-        drawables: [wall],
+        walls: [wall],
         id: '',
       }
       expect(uiArrayToSceneObject(exampleScene, '')).toEqual(
@@ -73,7 +73,7 @@ describe('Scene Utils', () => {
         hitpoints: DEFAULT_WALL_HITPOINTS,
       }
       const expectedSceneObject: Scene = {
-        drawables: [wall],
+        walls: [wall],
         id: '',
       }
       expect(uiArrayToSceneObject(exampleScene, '')).toEqual(
@@ -111,7 +111,7 @@ describe('Scene Utils', () => {
         symbol: 'Ξ',
       }
       const expectedSceneObject: Scene = {
-        drawables: [bed],
+        beds: [bed],
         id: '',
       }
       expect(uiArrayToSceneObject(exampleScene, '')).toEqual(

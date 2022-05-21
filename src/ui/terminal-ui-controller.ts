@@ -3,6 +3,8 @@ import { GameState } from '../game/game-state'
 import { prompt } from 'enquirer'
 import { Command } from '../game/command'
 import { Drawable } from '../game/drawable'
+import { Scene } from '../game/scene'
+import { pipe } from 'ramda'
 
 const COLOR_RESET_CODE = '\x1b[0m'
 const RED_COLOR_CODE = '\x1b[31m'
@@ -52,9 +54,9 @@ export async function drawGameState(gameState: GameState) {
   })
 
   // Start with a scene of only spaces
-  const rows: string[][] = []
+  const gameBoard: string[][] = []
   for (let i = 0; i < 10; i += 1) {
-    rows.push([
+    gameBoard.push([
       `${i}`,
       ' ',
       ' ',
@@ -80,19 +82,37 @@ export async function drawGameState(gameState: GameState) {
   const playerY = gameState.player.coords.y
   const playerSymbol = gameState.player.symbol
 
-  rows[playerY][playerX] = playerSymbol
+  gameBoard[playerY][playerX] = playerSymbol
 
-  gameState.currentScene.drawables.forEach((drawable: Drawable) => {
-    rows[drawable.coords.y][drawable.coords.x] = drawable.symbol
-  })
+  addDoorsToUiBoard(gameState.currentScene, gameBoard)
+  addBedsToUiBoard(gameState.currentScene, gameBoard)
+  addWallsToUiBoard(gameState.currentScene, gameBoard)
 
   // Put the rows into our table
-  for (const row of rows) {
+  for (const row of gameBoard) {
     table.push(row)
   }
 
   // Draw
   console.log(table.toString())
+}
+
+function addDoorsToUiBoard(currentScene: Scene, board: string[][]) {
+  currentScene?.doors?.forEach((door) => {
+    board[door.coords.y][door.coords.x] = door.symbol
+  })
+}
+
+function addBedsToUiBoard(currentScene: Scene, board: string[][]) {
+  currentScene?.beds?.forEach((bed) => {
+    board[bed.coords.y][bed.coords.x] = bed.symbol
+  })
+}
+
+function addWallsToUiBoard(currentScene: Scene, board: string[][]) {
+  currentScene?.walls?.forEach((wall) => {
+    board[wall.coords.y][wall.coords.x] = wall.symbol
+  })
 }
 
 export async function getStartGameSelection(): Promise<'New' | 'Load'> {
