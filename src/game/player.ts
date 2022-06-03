@@ -1,14 +1,62 @@
 import { Drawable } from './drawable'
 import { GameState } from './game-state'
-import { assocPath, dec, inc } from 'ramda'
+import { assocPath, dec, filter, inc } from 'ramda'
 import {
   NUM_COLS_PER_SCENE,
   NUM_ROWS_PER_SCENE,
 } from '../ui/terminal-ui-controller'
+import { Collidable, getCurrentSceneCollidables } from './collidable'
+import { Command } from './command'
 
 export type Player = Drawable
 
-export function movePlayerUp(gameState: GameState): GameState {
+export function movePlayer(gameState: GameState, command: Command): GameState {
+  let newGameStateToReturn = gameState
+  switch (command) {
+    case Command.MoveDown:
+      newGameStateToReturn = movePlayerDown(gameState)
+      break
+    case Command.MoveUp:
+      newGameStateToReturn = movePlayerUp(gameState)
+      break
+    case Command.MoveLeft:
+      newGameStateToReturn = movePlayerLeft(gameState)
+      break
+    case Command.MoveRight:
+      newGameStateToReturn = movePlayerRight(gameState)
+      break
+    case Command.MoveUpRight:
+      newGameStateToReturn = movePlayerUpRight(gameState)
+      break
+    case Command.MoveUpLeft:
+      newGameStateToReturn = movePlayerUpLeft(gameState)
+      break
+    case Command.MoveDownRight:
+      newGameStateToReturn = movePlayerDownRight(gameState)
+      break
+    case Command.MoveDownLeft:
+      newGameStateToReturn = movePlayerDownLeft(gameState)
+      break
+  }
+
+  if (playerWillCollideWithSomething(newGameStateToReturn)) {
+    return gameState
+  }
+
+  return newGameStateToReturn
+}
+
+function playerWillCollideWithSomething(gameState: GameState): boolean {
+  const collidablesInTheWay = filter((collidable: Collidable) => {
+    return (
+      collidable.coords.y === gameState.player.coords.y &&
+      collidable.coords.x === gameState.player.coords.x
+    )
+  }, getCurrentSceneCollidables(gameState))
+  return Boolean(collidablesInTheWay.length)
+}
+
+function movePlayerUp(gameState: GameState): GameState {
   if (gameState.player.coords.y === 0) {
     return gameState
   }
@@ -20,7 +68,7 @@ export function movePlayerUp(gameState: GameState): GameState {
   )
 }
 
-export function movePlayerDown(gameState: GameState): GameState {
+function movePlayerDown(gameState: GameState): GameState {
   if (gameState.player.coords.y === dec(NUM_ROWS_PER_SCENE)) {
     return gameState
   }
@@ -32,7 +80,7 @@ export function movePlayerDown(gameState: GameState): GameState {
   )
 }
 
-export function movePlayerRight(gameState: GameState): GameState {
+function movePlayerRight(gameState: GameState): GameState {
   if (gameState.player.coords.x === dec(NUM_COLS_PER_SCENE)) {
     return gameState
   }
@@ -43,7 +91,7 @@ export function movePlayerRight(gameState: GameState): GameState {
   )
 }
 
-export function movePlayerLeft(gameState: GameState): GameState {
+function movePlayerLeft(gameState: GameState): GameState {
   if (gameState.player.coords.x === 1) {
     return gameState
   }
@@ -54,7 +102,7 @@ export function movePlayerLeft(gameState: GameState): GameState {
   )
 }
 
-export function movePlayerUpRight(gameState: GameState): GameState {
+function movePlayerUpRight(gameState: GameState): GameState {
   if (
     gameState.player.coords.x === dec(NUM_COLS_PER_SCENE) ||
     gameState.player.coords.y === 0
@@ -74,7 +122,7 @@ export function movePlayerUpRight(gameState: GameState): GameState {
   return upAndRight
 }
 
-export function movePlayerUpLeft(gameState: GameState): GameState {
+function movePlayerUpLeft(gameState: GameState): GameState {
   if (gameState.player.coords.y === 0 || gameState.player.coords.x === 1) {
     return gameState
   }
@@ -91,7 +139,7 @@ export function movePlayerUpLeft(gameState: GameState): GameState {
   return upAndLeft
 }
 
-export function movePlayerDownRight(gameState: GameState): GameState {
+function movePlayerDownRight(gameState: GameState): GameState {
   if (
     gameState.player.coords.y === dec(NUM_ROWS_PER_SCENE) ||
     gameState.player.coords.x === dec(NUM_COLS_PER_SCENE)
@@ -111,7 +159,7 @@ export function movePlayerDownRight(gameState: GameState): GameState {
   return downAndRight
 }
 
-export function movePlayerDownLeft(gameState: GameState): GameState {
+function movePlayerDownLeft(gameState: GameState): GameState {
   if (
     gameState.player.coords.y === dec(NUM_COLS_PER_SCENE) ||
     gameState.player.coords.x === 1

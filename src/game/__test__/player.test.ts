@@ -1,19 +1,14 @@
 import { GameState } from '../game-state'
-import {
-  movePlayerDown,
-  movePlayerDownLeft,
-  movePlayerDownRight,
-  movePlayerLeft,
-  movePlayerRight,
-  movePlayerUp,
-  movePlayerUpLeft,
-  movePlayerUpRight,
-} from '../player'
+import { movePlayer } from '../player'
 import { assocPath, dec, inc } from 'ramda'
 import {
   NUM_COLS_PER_SCENE,
   NUM_ROWS_PER_SCENE,
 } from '../../ui/terminal-ui-controller'
+import { Door } from '../door'
+import { Wall } from '../wall'
+import { Bed } from '../bed'
+import { Command } from '../command'
 
 const exampleGameState: GameState = {
   currentScene: { id: '' },
@@ -22,26 +17,149 @@ const exampleGameState: GameState = {
 }
 
 describe('Player', () => {
-  describe('Player Movement', () => {
+  describe('Move Player', () => {
+    test('Does not allow the player to move up into a cell which holds a door', () => {
+      const doorToRunInto: Door = {
+        collidable: true,
+        coords: { x: 5, y: 4 },
+        hitpoints: 0,
+        symbol: '-',
+      }
+      const gameStateWithDoorAbovePlayer = assocPath(
+        ['currentScene', 'doors'],
+        [doorToRunInto],
+        exampleGameState
+      )
+      const updatedGameState = movePlayer(
+        gameStateWithDoorAbovePlayer,
+        Command.MoveUp
+      )
+
+      expect(updatedGameState).toEqual(gameStateWithDoorAbovePlayer)
+    })
+
+    test('Does not allow the player to move up into a cell which holds a wall', () => {
+      const wallToRunInto: Wall = {
+        collidable: true,
+        coords: { x: 5, y: 4 },
+        hitpoints: 0,
+        symbol: '-',
+      }
+      const gameStateWithDoorAbovePlayer = assocPath(
+        ['currentScene', 'walls'],
+        [wallToRunInto],
+        exampleGameState
+      )
+      const updatedGameState = movePlayer(
+        gameStateWithDoorAbovePlayer,
+        Command.MoveUp
+      )
+
+      expect(updatedGameState).toEqual(gameStateWithDoorAbovePlayer)
+    })
+
+    test('Does not allow the player to move up into a cell which holds a bed', () => {
+      const wallToRunInto: Bed = {
+        collidable: true,
+        coords: { x: 5, y: 4 },
+        hitpoints: 0,
+        symbol: '-',
+      }
+      const gameStateWithDoorAbovePlayer = assocPath(
+        ['currentScene', 'beds'],
+        [wallToRunInto],
+        exampleGameState
+      )
+      const updatedGameState = movePlayer(
+        gameStateWithDoorAbovePlayer,
+        Command.MoveUp
+      )
+
+      expect(updatedGameState).toEqual(gameStateWithDoorAbovePlayer)
+    })
+
+    test('Does not allow the player to move down into a cell which holds a bed', () => {
+      const wallToRunInto: Bed = {
+        collidable: true,
+        coords: { x: 5, y: 6 },
+        hitpoints: 0,
+        symbol: '-',
+      }
+      const gameStateWithDoorAbovePlayer = assocPath(
+        ['currentScene', 'beds'],
+        [wallToRunInto],
+        exampleGameState
+      )
+      const updatedGameState = movePlayer(
+        gameStateWithDoorAbovePlayer,
+        Command.MoveDown
+      )
+
+      expect(updatedGameState).toEqual(gameStateWithDoorAbovePlayer)
+    })
+
+    test('Allows free movement down if a bed is not in the way', () => {
+      const wallToRunInto: Bed = {
+        collidable: true,
+        coords: { x: 5, y: 7 },
+        hitpoints: 0,
+        symbol: '-',
+      }
+      const gameStateWithDoorAbovePlayer = assocPath(
+        ['currentScene', 'beds'],
+        [wallToRunInto],
+        exampleGameState
+      )
+      const updatedGameState = movePlayer(
+        gameStateWithDoorAbovePlayer,
+        Command.MoveDown
+      )
+
+      expect(updatedGameState.player.coords.y).toEqual(6)
+    })
+
+    test('Allows free movement up if a bed is not in the way', () => {
+      const wallToRunInto: Bed = {
+        collidable: true,
+        coords: { x: 5, y: 7 },
+        hitpoints: 0,
+        symbol: '-',
+      }
+      const gameStateWithDoorAbovePlayer = assocPath(
+        ['currentScene', 'beds'],
+        [wallToRunInto],
+        exampleGameState
+      )
+      const updatedGameState = movePlayer(
+        gameStateWithDoorAbovePlayer,
+        Command.MoveUp
+      )
+
+      expect(updatedGameState.player.coords.y).toEqual(4)
+    })
+
     describe('movePlayerUp', () => {
       it('Does not allow vertical movement past the top of the board', () => {
-        const updatedGameState = movePlayerUp(
-          assocPath(['player', 'coords', 'y'], 0, exampleGameState)
+        const updatedGameState = movePlayer(
+          assocPath(['player', 'coords', 'y'], 0, exampleGameState),
+          Command.MoveUp
         )
         expect(updatedGameState.player.coords.y).toEqual(0)
       })
 
       it('Does not mutate the player object sent in', () => {
-        const updateGameState = movePlayerUp(
-          assocPath(['player', 'coords', 'y'], 20, exampleGameState)
+        const updateGameState = movePlayer(
+          assocPath(['player', 'coords', 'y'], 20, exampleGameState),
+          Command.MoveUp
         )
         expect(updateGameState.player.coords.y).toEqual(19)
         expect(exampleGameState.player.coords.y).toEqual(5)
       })
 
       it('Decrements the player y coordinate', () => {
-        const updatedGameState = movePlayerUp(
-          assocPath(['player', 'coords', 'y'], 20, exampleGameState)
+        const updatedGameState = movePlayer(
+          assocPath(['player', 'coords', 'y'], 20, exampleGameState),
+          Command.MoveUp
         )
         expect(updatedGameState.player.coords.y).toEqual(19)
       })
@@ -49,12 +167,13 @@ describe('Player', () => {
 
     describe('movePlayerDown', () => {
       it('Does not allow vertical movement past the bottom of the board', () => {
-        const updatedGameState = movePlayerDown(
+        const updatedGameState = movePlayer(
           assocPath(
             ['player', 'coords', 'y'],
             dec(NUM_ROWS_PER_SCENE),
             exampleGameState
-          )
+          ),
+          Command.MoveDown
         )
         expect(updatedGameState.player.coords.y).toEqual(
           dec(NUM_ROWS_PER_SCENE)
@@ -62,7 +181,7 @@ describe('Player', () => {
       })
 
       it('Increments the player y coordinate', () => {
-        const updatedGameState = movePlayerDown(exampleGameState)
+        const updatedGameState = movePlayer(exampleGameState, Command.MoveDown)
         expect(updatedGameState.player.coords.y).toEqual(
           inc(exampleGameState.player.coords.y)
         )
@@ -71,12 +190,13 @@ describe('Player', () => {
 
     describe('movePlayerRight', () => {
       it('Does not allow horizontal movement past the right edge of the board', () => {
-        const updatedGameState = movePlayerRight(
+        const updatedGameState = movePlayer(
           assocPath(
             ['player', 'coords', 'x'],
             dec(NUM_COLS_PER_SCENE),
             exampleGameState
-          )
+          ),
+          Command.MoveRight
         )
         expect(updatedGameState.player.coords.x).toEqual(
           dec(NUM_COLS_PER_SCENE)
@@ -84,7 +204,7 @@ describe('Player', () => {
       })
 
       it('Increments the player x coordinate', () => {
-        const updatedGameState = movePlayerRight(exampleGameState)
+        const updatedGameState = movePlayer(exampleGameState, Command.MoveRight)
         expect(updatedGameState.player.coords.x).toEqual(
           inc(exampleGameState.player.coords.x)
         )
@@ -93,8 +213,9 @@ describe('Player', () => {
 
     describe('movePlayerLeft', () => {
       it('Does not allow horizontal movement past the left edge of the board', () => {
-        const updatedGameState = movePlayerLeft(
-          assocPath(['player', 'coords', 'x'], 1, exampleGameState)
+        const updatedGameState = movePlayer(
+          assocPath(['player', 'coords', 'x'], 1, exampleGameState),
+          Command.MoveLeft
         )
 
         // We stop at 1 because the 0 index has the row labels in it.
@@ -102,7 +223,7 @@ describe('Player', () => {
       })
 
       it('Decrements the player x coordinate', () => {
-        const updatedGameState = movePlayerLeft(exampleGameState)
+        const updatedGameState = movePlayer(exampleGameState, Command.MoveLeft)
         expect(updatedGameState.player.coords.x).toEqual(
           dec(exampleGameState.player.coords.x)
         )
@@ -120,7 +241,10 @@ describe('Player', () => {
             exampleGameState
           )
         )
-        const updatedGameState = movePlayerUpRight(atTopRightCorner)
+        const updatedGameState = movePlayer(
+          atTopRightCorner,
+          Command.MoveUpRight
+        )
 
         expect(updatedGameState.player.coords).toEqual({
           x: dec(NUM_COLS_PER_SCENE),
@@ -129,7 +253,10 @@ describe('Player', () => {
       })
 
       it('Increments the x value, and decrements the y value of the player coordinates', () => {
-        const updatedGameState = movePlayerUpRight(exampleGameState)
+        const updatedGameState = movePlayer(
+          exampleGameState,
+          Command.MoveUpRight
+        )
 
         expect(updatedGameState.player.coords).toEqual({
           x: inc(exampleGameState.player.coords.x),
@@ -145,7 +272,7 @@ describe('Player', () => {
           0,
           assocPath(['player', 'coords', 'x'], 1, exampleGameState)
         )
-        const updatedGameState = movePlayerUpLeft(atTopLeftCorner)
+        const updatedGameState = movePlayer(atTopLeftCorner, Command.MoveUpLeft)
 
         expect(updatedGameState.player.coords).toEqual({
           x: 1,
@@ -154,7 +281,10 @@ describe('Player', () => {
       })
 
       it('Decrements the x value, and decrements the y value of the player coordinates', () => {
-        const updatedGameState = movePlayerUpLeft(exampleGameState)
+        const updatedGameState = movePlayer(
+          exampleGameState,
+          Command.MoveUpLeft
+        )
 
         expect(updatedGameState.player.coords).toEqual({
           x: dec(exampleGameState.player.coords.x),
@@ -174,14 +304,20 @@ describe('Player', () => {
             exampleGameState
           )
         )
-        const updatedGameState = movePlayerDownRight(atBottomRightCorner)
+        const updatedGameState = movePlayer(
+          atBottomRightCorner,
+          Command.MoveDownRight
+        )
         expect(updatedGameState.player.coords).toEqual({
           x: dec(NUM_COLS_PER_SCENE),
           y: dec(NUM_ROWS_PER_SCENE),
         })
       })
       it('Increments the x and y values of the player character', () => {
-        const updatedGameState = movePlayerDownRight(exampleGameState)
+        const updatedGameState = movePlayer(
+          exampleGameState,
+          Command.MoveDownRight
+        )
         expect(updatedGameState.player.coords).toEqual({
           x: inc(exampleGameState.player.coords.x),
           y: inc(exampleGameState.player.coords.y),
@@ -196,14 +332,20 @@ describe('Player', () => {
           dec(NUM_ROWS_PER_SCENE),
           assocPath(['player', 'coords', 'x'], 1, exampleGameState)
         )
-        const updatedGameState = movePlayerDownLeft(atBottomLeftCorner)
+        const updatedGameState = movePlayer(
+          atBottomLeftCorner,
+          Command.MoveDownLeft
+        )
         expect(updatedGameState.player.coords).toEqual({
           x: 1,
           y: dec(NUM_ROWS_PER_SCENE),
         })
       })
       it('Decrements x and increments y of the player character location', () => {
-        const updatedGameState = movePlayerDownLeft(exampleGameState)
+        const updatedGameState = movePlayer(
+          exampleGameState,
+          Command.MoveDownLeft
+        )
         expect(updatedGameState.player.coords).toEqual({
           x: dec(exampleGameState.player.coords.x),
           y: inc(exampleGameState.player.coords.y),

@@ -1,16 +1,7 @@
 import { GameState } from './game-state'
 import { UiController } from '../ui/ui-controller'
 import { Command } from './command'
-import {
-  movePlayerDown,
-  movePlayerDownLeft,
-  movePlayerDownRight,
-  movePlayerLeft,
-  movePlayerRight,
-  movePlayerUp,
-  movePlayerUpLeft,
-  movePlayerUpRight,
-} from './player'
+import { movePlayer } from './player'
 
 export async function doPlayerTurn(
   gameState: GameState,
@@ -19,29 +10,21 @@ export async function doPlayerTurn(
   const command = await uiController.getCommand()
   switch (command) {
     case Command.MoveDown:
-      gameState = await movePlayerDown(gameState)
-      break
+      return movePlayer(gameState, command)
     case Command.MoveUp:
-      gameState = await movePlayerUp(gameState)
-      break
+      return movePlayer(gameState, command)
     case Command.MoveLeft:
-      gameState = await movePlayerLeft(gameState)
-      break
+      return movePlayer(gameState, command)
     case Command.MoveRight:
-      gameState = await movePlayerRight(gameState)
-      break
-    case Command.MoveDownRight:
-      gameState = await movePlayerDownRight(gameState)
-      break
-    case Command.MoveDownLeft:
-      gameState = await movePlayerDownLeft(gameState)
-      break
+      return movePlayer(gameState, command)
     case Command.MoveUpRight:
-      gameState = await movePlayerUpRight(gameState)
-      break
+      return movePlayer(gameState, command)
     case Command.MoveUpLeft:
-      gameState = await movePlayerUpLeft(gameState)
-      break
+      return movePlayer(gameState, command)
+    case Command.MoveDownRight:
+      return movePlayer(gameState, command)
+    case Command.MoveDownLeft:
+      return movePlayer(gameState, command)
   }
   return gameState
 }
