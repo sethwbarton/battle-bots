@@ -8,6 +8,8 @@ import {
 import { Collidable, getCurrentSceneCollidables } from './collidable'
 import { Command } from './command'
 
+export const STARTING_PLAYER_SYMBOL = '☉'
+
 export type Player = Drawable
 
 export function movePlayer(gameState: GameState, command: Command): GameState {

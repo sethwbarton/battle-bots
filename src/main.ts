@@ -3,7 +3,7 @@ import { doPlayerTurn } from './game/turn'
 import * as uiController from './ui/terminal-ui-controller'
 import { uiArrayToSceneObject } from './scenes/scene-utils'
 import { botnikJailCenter } from './scenes/scene-ui-drawings/botnik-jail-center-drawing'
-export const STARTING_PLAYER_SYMBOL = '☉'
+import { STARTING_PLAYER_SYMBOL } from './game/player'
 
 async function gameLoop() {
   let gameState = await makeNewGameState()

@@ -3,6 +3,7 @@ import { DEFAULT_WALL_HITPOINTS, Wall } from '../game/wall'
 import { Bed, DEFAULT_BED_HITPOINTS } from '../game/bed'
 import * as fs from 'fs'
 import { append, assoc, filter, isEmpty } from 'ramda'
+import { DEFAULT_DOOR_HITPOINTS, Door } from '../game/door'
 
 /**
  * Writes the scene to a json file in the scene-json-files folder.
@@ -19,10 +20,10 @@ export function writeSceneToJsonFile(scene: Scene) {
   )
 }
 
-type SceneObjectsTracker = { walls: Wall[]; beds: Bed[] }
+type SceneObjectsTracker = { walls: Wall[]; beds: Bed[]; doors: Door[] }
 
 export function uiArrayToSceneObject(uiArray: string[][], id: string): Scene {
-  let sceneObjects: SceneObjectsTracker = { walls: [], beds: [] }
+  let sceneObjects: SceneObjectsTracker = { walls: [], beds: [], doors: [] }
   uiArray.forEach((row, rowIndex) => {
     row.forEach((cell, colIndex) => {
       if (cell != ' ') {
@@ -50,6 +51,18 @@ function createSceneObjectFromCharacter(
       return assoc(
         'walls',
         append(makeHorizontalWall(column, row), currentSceneObjects.walls),
+        currentSceneObjects
+      )
+    case '~':
+      return assoc(
+        'doors',
+        append(makeHorizontalDoor(column, row), currentSceneObjects.doors),
+        currentSceneObjects
+      )
+    case '\\':
+      return assoc(
+        'doors',
+        append(makeVerticalDoor(column, row), currentSceneObjects.doors),
         currentSceneObjects
       )
     case '|':
@@ -80,6 +93,24 @@ function filterEmptyArrays(objectWithDrawables: {
     (listOfDrawables) => !isEmpty(listOfDrawables),
     objectWithDrawables
   )
+}
+
+function makeHorizontalDoor(x: number, y: number): Door {
+  return {
+    collidable: true,
+    coords: { x, y },
+    hitpoints: DEFAULT_DOOR_HITPOINTS,
+    symbol: '~',
+  }
+}
+
+function makeVerticalDoor(x: number, y: number): Door {
+  return {
+    collidable: true,
+    coords: { x, y },
+    hitpoints: DEFAULT_DOOR_HITPOINTS,
+    symbol: '\\',
+  }
 }
 
 function makeHorizontalWall(x: number, y: number): Wall {
