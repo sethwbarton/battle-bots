@@ -561,5 +561,180 @@
       "hitpoints": 100
     }
   ],
+  "doors": [
+    {
+      "collidable": true,
+      "coords": {
+        "x": 1,
+        "y": 3
+      },
+      "hitpoints": 100000000,
+      "symbol": "~"
+    },
+    {
+      "collidable": true,
+      "coords": {
+        "x": 4,
+        "y": 3
+      },
+      "hitpoints": 100000000,
+      "symbol": "~"
+    },
+    {
+      "collidable": true,
+      "coords": {
+        "x": 7,
+        "y": 3
+      },
+      "hitpoints": 100000000,
+      "symbol": "~"
+    },
+    {
+      "collidable": true,
+      "coords": {
+        "x": 10,
+        "y": 3
+      },
+      "hitpoints": 100000000,
+      "symbol": "~"
+    },
+    {
+      "collidable": true,
+      "coords": {
+        "x": 13,
+        "y": 3
+      },
+      "hitpoints": 100000000,
+      "symbol": "~"
+    },
+    {
+      "collidable": true,
+      "coords": {
+        "x": 16,
+        "y": 3
+      },
+      "hitpoints": 100000000,
+      "symbol": "~"
+    },
+    {
+      "collidable": true,
+      "coords": {
+        "x": 1,
+        "y": 6
+      },
+      "hitpoints": 100000000,
+      "symbol": "~"
+    },
+    {
+      "collidable": true,
+      "coords": {
+        "x": 4,
+        "y": 6
+      },
+      "hitpoints": 100000000,
+      "symbol": "~"
+    },
+    {
+      "collidable": true,
+      "coords": {
+        "x": 7,
+        "y": 6
+      },
+      "hitpoints": 100000000,
+      "symbol": "~"
+    },
+    {
+      "collidable": true,
+      "coords": {
+        "x": 10,
+        "y": 6
+      },
+      "hitpoints": 100000000,
+      "symbol": "~"
+    },
+    {
+      "collidable": true,
+      "coords": {
+        "x": 13,
+        "y": 6
+      },
+      "hitpoints": 100000000,
+      "symbol": "~"
+    },
+    {
+      "collidable": true,
+      "coords": {
+        "x": 16,
+        "y": 6
+      },
+      "hitpoints": 100000000,
+      "symbol": "~"
+    }
+  ],
+  "npcs": [
+    {
+      "collidable": true,
+      "coords": {
+        "x": 6,
+        "y": 0
+      },
+      "hitpoints": 100,
+      "symbol": "β"
+    },
+    {
+      "collidable": true,
+      "coords": {
+        "x": 4,
+        "y": 1
+      },
+      "hitpoints": 100,
+      "symbol": "β"
+    },
+    {
+      "collidable": true,
+      "coords": {
+        "x": 12,
+        "y": 1
+      },
+      "hitpoints": 100,
+      "symbol": "β"
+    },
+    {
+      "collidable": true,
+      "coords": {
+        "x": 15,
+        "y": 1
+      },
+      "hitpoints": 100,
+      "symbol": "τ"
+    },
+    {
+      "collidable": true,
+      "coords": {
+        "x": 9,
+        "y": 2
+      },
+      "hitpoints": 100,
+      "symbol": "β"
+    },
+    {
+      "collidable": true,
+      "coords": {
+        "x": 1,
+        "y": 7
+      },
+      "hitpoints": 100,
+      "symbol": "τ"
+    },
+    {
+      "collidable": true,
+      "coords": {
+        "x": 15,
+        "y": 7
+      },
+      "hitpoints": 100,
+      "symbol": "τ"
+    }
+  ],
   "id": "botnik-jail-1"
 }

@@ -4,26 +4,23 @@ import { Bed, DEFAULT_BED_HITPOINTS } from '../game/bed'
 import * as fs from 'fs'
 import { append, assoc, filter, isEmpty } from 'ramda'
 import { DEFAULT_DOOR_HITPOINTS, Door } from '../game/door'
+import { botnikJailCenter } from './scene-ui-drawings/botnik-jail-center-drawing'
+import { DEFAULT_NPC_HITPOINTS, Npc } from '../game/npc'
 
-/**
- * Writes the scene to a json file in the scene-json-files folder.
- * The name of the file is the id of the scene.
- * @param scene
- */
-export function writeSceneToJsonFile(scene: Scene) {
-  fs.writeFile(
-    `src/scenes/scene-json-files/${scene.id}.json`,
-    JSON.stringify(scene, null, 2),
-    () => {
-      console.log('finished created scene ' + scene.id)
-    }
-  )
+type SceneObjectsTracker = {
+  walls: Wall[]
+  beds: Bed[]
+  doors: Door[]
+  npcs: Npc[]
 }
 
-type SceneObjectsTracker = { walls: Wall[]; beds: Bed[]; doors: Door[] }
-
 export function uiArrayToSceneObject(uiArray: string[][], id: string): Scene {
-  let sceneObjects: SceneObjectsTracker = { walls: [], beds: [], doors: [] }
+  let sceneObjects: SceneObjectsTracker = {
+    walls: [],
+    beds: [],
+    doors: [],
+    npcs: [],
+  }
   uiArray.forEach((row, rowIndex) => {
     row.forEach((cell, colIndex) => {
       if (cell != ' ') {
@@ -77,6 +74,18 @@ function createSceneObjectFromCharacter(
         append(makeBed(column, row), currentSceneObjects.beds),
         currentSceneObjects
       )
+    case 'β':
+      return assoc(
+        'npcs',
+        append(makeNpc(column, row, 'β'), currentSceneObjects.npcs),
+        currentSceneObjects
+      )
+    case 'τ':
+      return assoc(
+        'npcs',
+        append(makeNpc(column, row, 'τ'), currentSceneObjects.npcs),
+        currentSceneObjects
+      )
     default:
       console.log(
         "I don't know how to make one of those! Symbol: " + objectCharacter
@@ -93,6 +102,15 @@ function filterEmptyArrays(objectWithDrawables: {
     (listOfDrawables) => !isEmpty(listOfDrawables),
     objectWithDrawables
   )
+}
+
+function makeNpc(x: number, y: number, symbol: string): Npc {
+  return {
+    collidable: true,
+    coords: { x, y },
+    hitpoints: DEFAULT_NPC_HITPOINTS,
+    symbol: symbol,
+  }
 }
 
 function makeHorizontalDoor(x: number, y: number): Door {

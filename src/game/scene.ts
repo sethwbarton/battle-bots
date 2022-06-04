@@ -1,6 +1,7 @@
 import { Bed } from './bed'
 import { Door } from './door'
 import { Wall } from './wall'
+import { Npc } from './npc'
 
 export interface Scene {
   id: string
@@ -12,4 +13,5 @@ export interface Scene {
   beds?: Bed[]
   doors?: Door[]
   walls?: Wall[]
+  npcs?: Npc[]
 }

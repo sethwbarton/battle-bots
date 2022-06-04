@@ -85,6 +85,7 @@ export async function drawGameState(gameState: GameState) {
   addDoorsToUiBoard(gameState.currentScene, gameBoard)
   addBedsToUiBoard(gameState.currentScene, gameBoard)
   addWallsToUiBoard(gameState.currentScene, gameBoard)
+  addNpcsToUiBoard(gameState.currentScene, gameBoard)
 
   // Put the rows into our table
   for (const row of gameBoard) {
@@ -93,6 +94,12 @@ export async function drawGameState(gameState: GameState) {
 
   // Draw
   console.log(table.toString())
+}
+
+function addNpcsToUiBoard(currentScene: Scene, board: string[][]) {
+  currentScene?.npcs?.forEach((npc) => {
+    board[npc.coords.y][npc.coords.x] = npc.symbol
+  })
 }
 
 function addDoorsToUiBoard(currentScene: Scene, board: string[][]) {

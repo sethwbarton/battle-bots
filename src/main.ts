@@ -1,8 +1,7 @@
 import { GameState } from './game/game-state'
 import { doPlayerTurn } from './game/turn'
 import * as uiController from './ui/terminal-ui-controller'
-import { uiArrayToSceneObject } from './scenes/scene-utils'
-import { botnikJailCenter } from './scenes/scene-ui-drawings/botnik-jail-center-drawing'
+import * as botnikJailSceneOne from './scenes/scene-json-files/botnik-jail-1.json'
 import { STARTING_PLAYER_SYMBOL } from './game/player'
 
 async function gameLoop() {
@@ -29,7 +28,7 @@ async function makeNewGameState(): Promise<GameState> {
     world: {
       scenes: [],
     },
-    currentScene: uiArrayToSceneObject(botnikJailCenter, 'botnik-jail-center'),
+    currentScene: botnikJailSceneOne,
   }
 }
 
