@@ -727,6 +727,20 @@
       "symbol": "τ"
     },
     {
+      "name": "Polonius Merc",
+      "dialogueMap": {
+        "openingPhrase": "Well well well... look at the trash the King's lackeys finally decided to clean up. How ya doin' sweet heart? Hope the guards weren't too rough on your soft skin.",
+        "options": [{ "Your Background": "I ain't talkin to you." }, {"Escape":  "Gee, what an original idea! Ya think I haven't tried it? Ya think? I don't know how to escape. Just leave me alone. Check under your bed or something and get lost."}]
+      },
+      "collidable": true,
+      "coords": {
+        "x": 9,
+        "y": 7
+      },
+      "hitpoints": 100,
+      "symbol": "β"
+    },
+    {
       "collidable": true,
       "coords": {
         "x": 15,

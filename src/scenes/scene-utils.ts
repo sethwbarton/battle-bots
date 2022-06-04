@@ -1,10 +1,8 @@
 import { Scene } from '../game/scene'
 import { DEFAULT_WALL_HITPOINTS, Wall } from '../game/wall'
 import { Bed, DEFAULT_BED_HITPOINTS } from '../game/bed'
-import * as fs from 'fs'
 import { append, assoc, filter, isEmpty } from 'ramda'
 import { DEFAULT_DOOR_HITPOINTS, Door } from '../game/door'
-import { botnikJailCenter } from './scene-ui-drawings/botnik-jail-center-drawing'
 import { DEFAULT_NPC_HITPOINTS, Npc } from '../game/npc'
 
 type SceneObjectsTracker = {
