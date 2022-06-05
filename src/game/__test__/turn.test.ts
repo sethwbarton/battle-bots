@@ -160,49 +160,29 @@ describe('doPlayerTurn', () => {
     })
   })
   describe('Npc Interaction', () => {
-    test("Talking to an NPC when there isn't one in that spot does nothing", async () => {
-      mockUiController.getCommand = () => Promise.resolve('talk Z9')
-      mockUiController.promptForConversation = jest.fn()
+    test("Talking to an NPC when there isn't one in that spot prompts the user that they can't talk to that and reprompts for input", async () => {
+      let callCount = 0
+      mockUiController.getCommand = () => {
+        if (callCount === 0) {
+          callCount += 1
+          return Promise.resolve('talk c9')
+        }
+        if (callCount === 1) {
+          callCount += 1
+          return Promise.resolve('talk a1')
+        }
+        return Promise.resolve('a')
+      }
+      mockUiController.promptForConversation = jest.fn(() => {
+        return Promise.resolve('quit')
+      })
+
       await doPlayerTurn(exampleGameState, mockUiController)
 
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
       expect(mockUiController.promptForConversation.mock.calls.length).toEqual(
-        0
-      )
-      expect(
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore
-        mockUiController.promptForConversation.mock.calls.length
-      ).toEqual(0)
-    })
-
-    test('Talking to an NPC that has nothing to say', async () => {
-      const anotherNPC = {
-        dialogueMap: {
-          openingPhrase: 'Hello?',
-          options: [{ subject: '1', response: '2' }],
-        },
-        name: 'A different NPC',
-        coords: { x: 2, y: 2 },
-        symbol: '2',
-        hitpoints: 100,
-        collidable: true,
-      }
-
-      exampleGameState.currentScene.npcs?.push(anotherNPC)
-
-      mockUiController.getCommand = () => Promise.resolve('talk C2')
-      mockUiController.promptForConversation = jest.fn(() =>
-        Promise.resolve('quit')
-      )
-
-      await doPlayerTurn(exampleGameState, mockUiController)
-
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore
-      expect(mockUiController.promptForConversation.mock.calls[0][1]).toEqual(
-        'This person has nothing to say to you.'
+        2
       )
     })
 
@@ -357,7 +337,14 @@ describe('doPlayerTurn', () => {
 
     test('Trying to talk to inanimate objects', async () => {
       // This doesn't point to anything
-      mockUiController.getCommand = () => Promise.resolve('talk c9')
+      let callCount = 0
+      mockUiController.getCommand = () => {
+        if (callCount === 0) {
+          callCount += 1
+          return Promise.resolve('talk c9')
+        }
+        return Promise.resolve('w')
+      }
 
       mockUiController.promptForConversation = jest.fn(() => {
         return Promise.resolve('quit')

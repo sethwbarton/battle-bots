@@ -5,6 +5,7 @@ import { UiController } from '../ui/ui-controller'
 import { GameState } from './game-state'
 import { NUM_ROWS_PER_SCENE } from '../ui/terminal-ui-controller'
 import { equals, find } from 'ramda'
+import { doPlayerTurn } from './turn'
 
 export const DEFAULT_NPC_HITPOINTS = 100
 
@@ -56,7 +57,7 @@ export async function talkToNpc(
   }
 }
 
-function getNpcFromCoordinates(
+export function getNpcFromCoordinates(
   gameState: GameState,
   coords: Coords
 ): Npc | undefined {
@@ -65,7 +66,7 @@ function getNpcFromCoordinates(
   })(gameState.currentScene?.npcs || [])
 }
 
-function matchLetterNumberToCoordinate(
+export function matchLetterNumberToCoordinate(
   letterNumberCombo: string
 ): Coords | undefined {
   const lettersToXCoord: Map<string, number> = new Map(
