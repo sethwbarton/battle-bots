@@ -4,7 +4,7 @@ import { Hitable } from './hitable'
 import { UiController } from '../ui/ui-controller'
 import { GameState } from './game-state'
 import { NUM_ROWS_PER_SCENE } from '../ui/terminal-ui-controller'
-import { equals, find, map, propEq, reduce } from 'ramda'
+import { equals, find } from 'ramda'
 
 export const DEFAULT_NPC_HITPOINTS = 100
 
@@ -33,17 +33,27 @@ export async function talkToNpc(
   }
 
   const npcToTalkTo = getNpcFromCoordinates(gameState, coordinates)
-
-  await uiController.showNpcDialogue(
-    npcToTalkTo?.dialogueMap?.openingPhrase ||
-      'This person has nothing to say to you.'
-  )
-  const options = npcToTalkTo?.dialogueMap?.options.map(
+  const topicOptions = npcToTalkTo?.dialogueMap?.options.map(
     (dialogueOption: DialogueOption) => {
       return dialogueOption.subject
     }
   )
-  await uiController.promptForConversationOptions(options || [])
+
+  let conversationOption = await uiController.promptForConversation(
+    [...(topicOptions || []), 'quit'],
+    npcToTalkTo?.dialogueMap?.openingPhrase ||
+      'This person has nothing to say to you.'
+  )
+
+  while (conversationOption !== 'quit') {
+    conversationOption = await uiController.promptForConversation(
+      [...(topicOptions || []), 'quit'],
+      find(
+        (dialogueOption: DialogueOption) =>
+          dialogueOption.subject === conversationOption
+      )(npcToTalkTo?.dialogueMap?.options || [])?.response || ''
+    )
+  }
 }
 
 function getNpcFromCoordinates(

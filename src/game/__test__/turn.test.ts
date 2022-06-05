@@ -35,10 +35,7 @@ const mockUiController: UiController = {
   getStartGameSelection(): Promise<'New' | 'Load'> {
     return Promise.resolve('Load')
   },
-  showNpcDialogue(text: string): Promise<void> {
-    return Promise.resolve(undefined)
-  },
-  promptForConversationOptions(options: string[]): Promise<string> {
+  promptForConversation(options: string[], npcOpener: string): Promise<string> {
     return Promise.resolve('')
   },
 }
@@ -165,17 +162,18 @@ describe('doPlayerTurn', () => {
   describe('Npc Interaction', () => {
     test("Talking to an NPC when there isn't one in that spot does nothing", async () => {
       mockUiController.getCommand = () => Promise.resolve('talk Z9')
-      mockUiController.showNpcDialogue = jest.fn()
-      mockUiController.promptForConversationOptions = jest.fn()
+      mockUiController.promptForConversation = jest.fn()
       await doPlayerTurn(exampleGameState, mockUiController)
 
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
-      expect(mockUiController.showNpcDialogue.mock.calls.length).toEqual(0)
+      expect(mockUiController.promptForConversation.mock.calls.length).toEqual(
+        0
+      )
       expect(
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
-        mockUiController.promptForConversationOptions.mock.calls.length
+        mockUiController.promptForConversation.mock.calls.length
       ).toEqual(0)
     })
 
@@ -191,52 +189,58 @@ describe('doPlayerTurn', () => {
       exampleGameState.currentScene.npcs?.push(anotherNPC)
 
       mockUiController.getCommand = () => Promise.resolve('talk C2')
-      mockUiController.showNpcDialogue = jest.fn()
-      mockUiController.promptForConversationOptions = jest.fn()
+      mockUiController.promptForConversation = jest.fn(() =>
+        Promise.resolve('quit')
+      )
+
       await doPlayerTurn(exampleGameState, mockUiController)
 
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
-      expect(mockUiController.showNpcDialogue.mock.calls[0][0]).toEqual(
+      expect(mockUiController.promptForConversation.mock.calls[0][1]).toEqual(
         'This person has nothing to say to you.'
       )
     })
 
     test("Talking to an NPC shows the NPC's opening dialogue", async () => {
       mockUiController.getCommand = () => Promise.resolve('talk A1')
-      mockUiController.showNpcDialogue = jest.fn()
+      mockUiController.promptForConversation = jest.fn(() =>
+        Promise.resolve('quit')
+      )
       await doPlayerTurn(exampleGameState, mockUiController)
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
-      expect(mockUiController.showNpcDialogue.mock.calls[0][0]).toEqual(
+      expect(mockUiController.promptForConversation.mock.calls[0][1]).toEqual(
         exampleGameState.currentScene.npcs?.[0].dialogueMap?.openingPhrase
       )
     })
 
     test("Talking to an NPC shows the NPC's dialogue options after the opening phrase", async () => {
       mockUiController.getCommand = () => Promise.resolve('talk A1')
-      mockUiController.showNpcDialogue = jest.fn()
-      mockUiController.promptForConversationOptions = jest.fn()
+      mockUiController.promptForConversation = jest.fn(() =>
+        Promise.resolve('quit')
+      )
       await doPlayerTurn(exampleGameState, mockUiController)
 
       expect(
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
-        mockUiController.promptForConversationOptions.mock.calls.length
+        mockUiController.promptForConversation.mock.calls.length
       ).toEqual(1)
     })
 
     test('Talking to an NPC shows the proper dialogue options for that NPC', async () => {
       mockUiController.getCommand = () => Promise.resolve('talk A1')
-      mockUiController.showNpcDialogue = jest.fn()
-      mockUiController.promptForConversationOptions = jest.fn()
+      mockUiController.promptForConversation = jest.fn(() =>
+        Promise.resolve('quit')
+      )
       await doPlayerTurn(exampleGameState, mockUiController)
 
       expect(
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
-        mockUiController.promptForConversationOptions.mock.calls[0][0]
-      ).toEqual(['1'])
+        mockUiController.promptForConversation.mock.calls[0][0]
+      ).toEqual(['1', 'quit'])
     })
 
     test('Talking to a different NPC', async () => {
@@ -259,21 +263,92 @@ describe('doPlayerTurn', () => {
 
       exampleGameState.currentScene.npcs?.push(anotherNPC)
       mockUiController.getCommand = () => Promise.resolve('talk B2')
-      mockUiController.showNpcDialogue = jest.fn()
-      mockUiController.promptForConversationOptions = jest.fn()
+      mockUiController.promptForConversation = jest.fn(() =>
+        Promise.resolve('quit')
+      )
 
       await doPlayerTurn(exampleGameState, mockUiController)
 
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
-      expect(mockUiController.showNpcDialogue.mock.calls[0][0]).toEqual(
+      expect(mockUiController.promptForConversation.mock.calls[0][1]).toEqual(
         anotherNPC.dialogueMap.openingPhrase
       )
       expect(
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
-        mockUiController.promptForConversationOptions.mock.calls[0][0]
-      ).toEqual(['Your background'])
+        mockUiController.promptForConversation.mock.calls[0][0]
+      ).toEqual(['Your background', 'quit'])
+    })
+
+    test('You can exchange dialogue with an NPC until you quit the conversation', async () => {
+      const anotherNPC = {
+        name: 'A different NPC',
+        coords: { x: 2, y: 2 },
+        symbol: '2',
+        hitpoints: 100,
+        collidable: true,
+        dialogueMap: {
+          openingPhrase: 'A new opener',
+          options: [
+            {
+              subject: 'Your background',
+              response: "I don't like you enough to tell.",
+            },
+            {
+              subject: 'Your profession',
+              response: "I'm a programmer.",
+            },
+            {
+              subject: 'A little secret',
+              response: 'Seth is a bad programmer.',
+            },
+          ],
+        },
+      }
+
+      exampleGameState.currentScene.npcs?.push(anotherNPC)
+      mockUiController.getCommand = () => Promise.resolve('talk B2')
+
+      let callCount = 0
+      // Ask about their background first. Then their profession. Then a secret.
+      mockUiController.promptForConversation = jest.fn(() => {
+        if (callCount === 0) {
+          callCount += 1
+          return Promise.resolve('Your background')
+        }
+        if (callCount === 1) {
+          callCount += 1
+          return Promise.resolve('Your profession')
+        }
+        if (callCount === 2) {
+          callCount += 1
+          return Promise.resolve('A little secret')
+        }
+        if (callCount === 3) {
+          callCount += 1
+          return Promise.resolve('quit')
+        }
+        return Promise.resolve('')
+      })
+
+      await doPlayerTurn(exampleGameState, mockUiController)
+
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
+      expect(mockUiController.promptForConversation.mock.calls[1][1]).toEqual(
+        "I don't like you enough to tell."
+      )
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
+      expect(mockUiController.promptForConversation.mock.calls[2][1]).toEqual(
+        "I'm a programmer."
+      )
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
+      expect(mockUiController.promptForConversation.mock.calls[3][1]).toEqual(
+        'Seth is a bad programmer.'
+      )
     })
   })
 })

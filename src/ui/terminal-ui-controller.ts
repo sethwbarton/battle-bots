@@ -134,20 +134,17 @@ export async function getStartGameSelection(): Promise<'New' | 'Load'> {
   }
 }
 
-export async function promptForConversationOptions(
-  options: string[]
+export async function promptForConversation(
+  topicOptions: string[],
+  npcOpener: string
 ): Promise<string> {
   const result = await prompt({
-    message: 'What would you like to talk about?',
+    message: npcOpener,
     type: 'select',
     name: 'conversationOption',
-    choices: options,
+    choices: topicOptions,
   })
   return (result as any).conversationOption
-}
-
-export async function showNpcDialogue(text: string): Promise<void> {
-  console.log(text)
 }
 
 export async function getCommand(): Promise<string> {
