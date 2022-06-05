@@ -97,8 +97,8 @@ export async function drawGameState(gameState: GameState) {
 }
 
 function addNpcsToUiBoard(currentScene: Scene, board: string[][]) {
-  currentScene?.npcs?.forEach((npc) => {
-    board[npc.coords.y][npc.coords.x] = npc.symbol
+  currentScene?.npcs?.forEach((door) => {
+    board[door.coords.y][door.coords.x] = door.symbol
   })
 }
 
@@ -134,39 +134,27 @@ export async function getStartGameSelection(): Promise<'New' | 'Load'> {
   }
 }
 
-export async function getCommand(): Promise<Command> {
+export async function promptForConversationOptions(
+  options: string[]
+): Promise<string> {
+  const result = await prompt({
+    message: 'What would you like to talk about?',
+    type: 'select',
+    name: 'conversationOption',
+    choices: options,
+  })
+  return (result as any).conversationOption
+}
+
+export async function showNpcDialogue(text: string): Promise<void> {
+  console.log(text)
+}
+
+export async function getCommand(): Promise<string> {
   const playerAnswer = await prompt({
     message: 'Command Your Character',
     type: 'input',
     name: 'command',
   })
-  switch ((playerAnswer as any).command) {
-    case 'w':
-      return Command.MoveUp
-    case 's':
-      return Command.MoveDown
-    case 'd':
-      return Command.MoveRight
-    case 'a':
-      return Command.MoveLeft
-    case 'wd':
-      return Command.MoveUpRight
-    case 'dw':
-      return Command.MoveUpRight
-    case 'wa':
-      return Command.MoveUpLeft
-    case 'aw':
-      return Command.MoveUpLeft
-    case 'sd':
-      return Command.MoveDownRight
-    case 'ds':
-      return Command.MoveDownRight
-    case 'sa':
-      return Command.MoveDownLeft
-    case 'as':
-      return Command.MoveDownLeft
-  }
-
-  console.log("Type 'help' for a list of possible commands.")
-  return Command.DoNothing
+  return (playerAnswer as any).command
 }

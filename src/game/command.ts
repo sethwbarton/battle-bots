@@ -2,6 +2,7 @@ export enum Command {
   Inventory = 'i',
   Map = 'm',
   Journal = 'j',
+  Talk = 'talk',
   DoNothing = '',
   MoveUp = 'w',
   MoveDown = 's',
