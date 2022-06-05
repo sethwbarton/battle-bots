@@ -2,11 +2,7 @@ import { GameState } from './game-state'
 import { UiController } from '../ui/ui-controller'
 import { Command } from './command'
 import { movePlayer } from './player'
-import {
-  getNpcFromCoordinates,
-  matchLetterNumberToCoordinate,
-  talkToNpc,
-} from './npc'
+import { isValidNpc, talkToNpc } from './npc'
 
 export async function doPlayerTurn(
   gameState: GameState,
@@ -20,7 +16,7 @@ export async function doPlayerTurn(
 
     switch (command) {
       case Command.Talk:
-        if (!canTalkTo(argument, gameState)) {
+        if (!isValidNpc(argument, gameState)) {
           await uiController.promptForConversation(
             ['quit'],
             "You can't talk to that."
@@ -49,20 +45,4 @@ export async function doPlayerTurn(
   }
 
   return gameState
-}
-
-export function canTalkTo(
-  playerInputCoordinates: string,
-  gameState: GameState
-): boolean {
-  if (matchLetterNumberToCoordinate(playerInputCoordinates)) {
-    return Boolean(
-      getNpcFromCoordinates(
-        gameState,
-        matchLetterNumberToCoordinate(playerInputCoordinates) || { x: 1, y: 1 }
-      )
-    )
-  } else {
-    return false
-  }
 }

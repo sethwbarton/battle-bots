@@ -5,7 +5,6 @@ import { UiController } from '../ui/ui-controller'
 import { GameState } from './game-state'
 import { NUM_ROWS_PER_SCENE } from '../ui/terminal-ui-controller'
 import { equals, find } from 'ramda'
-import { doPlayerTurn } from './turn'
 
 export const DEFAULT_NPC_HITPOINTS = 100
 
@@ -34,6 +33,9 @@ export async function talkToNpc(
   }
 
   const npcToTalkTo = getNpcFromCoordinates(gameState, coordinates)
+  if (npcToTalkTo) {
+    console.log('Talking to ' + npcToTalkTo.name)
+  }
   const topicOptions = npcToTalkTo?.dialogueMap?.options.map(
     (dialogueOption: DialogueOption) => {
       return dialogueOption.subject
@@ -57,7 +59,7 @@ export async function talkToNpc(
   }
 }
 
-export function getNpcFromCoordinates(
+function getNpcFromCoordinates(
   gameState: GameState,
   coords: Coords
 ): Npc | undefined {
@@ -66,7 +68,7 @@ export function getNpcFromCoordinates(
   })(gameState.currentScene?.npcs || [])
 }
 
-export function matchLetterNumberToCoordinate(
+function matchLetterNumberToCoordinate(
   letterNumberCombo: string
 ): Coords | undefined {
   const lettersToXCoord: Map<string, number> = new Map(
@@ -98,4 +100,20 @@ export function matchLetterNumberToCoordinate(
     return undefined
   }
   return { x: lettersToXCoord.get(letter.toLowerCase()) || 1, y: number }
+}
+
+export function isValidNpc(
+  playerInputCoordinates: string,
+  gameState: GameState
+): boolean {
+  if (matchLetterNumberToCoordinate(playerInputCoordinates)) {
+    return Boolean(
+      getNpcFromCoordinates(
+        gameState,
+        matchLetterNumberToCoordinate(playerInputCoordinates) || { x: 1, y: 1 }
+      )
+    )
+  } else {
+    return false
+  }
 }
