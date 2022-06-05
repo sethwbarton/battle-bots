@@ -41,6 +41,8 @@ export async function doPlayerTurn(
         return movePlayer(gameState, command)
       case Command.MoveDownLeft:
         return movePlayer(gameState, command)
+      default:
+        await uiController.showHelpDialog()
     }
   }
 

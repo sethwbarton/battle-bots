@@ -38,6 +38,9 @@ const mockUiController: UiController = {
   promptForConversation(options: string[], npcOpener: string): Promise<string> {
     return Promise.resolve('')
   },
+  showHelpDialog(): Promise<void> {
+    return Promise.resolve()
+  },
 }
 
 describe('doPlayerTurn', () => {
@@ -56,6 +59,28 @@ describe('doPlayerTurn', () => {
         },
       },
     ]
+  })
+
+  it("shows the help dialogue if the command doesn't compute", async () => {
+    let callCount = 0
+    mockUiController.getCommand = () => {
+      if (callCount === 0) {
+        callCount += 1
+        return Promise.resolve('blah blah blah')
+      }
+      return Promise.resolve('w')
+    }
+
+    mockUiController.showHelpDialog = jest.fn()
+
+    const updatedGameState = await doPlayerTurn(
+      exampleGameState,
+      mockUiController
+    )
+
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    expect(mockUiController.showHelpDialog.mock.calls.length).toEqual(1)
   })
 
   describe('Player Movement', () => {

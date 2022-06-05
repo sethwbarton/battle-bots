@@ -155,3 +155,9 @@ export async function getCommand(): Promise<string> {
   })
   return (playerAnswer as any).command
 }
+
+export async function showHelpDialog(): Promise<void> {
+  console.log('Use w, a, s, d, followed by enter to move.')
+  console.log('You can use wa, wd, sd, sa to move diagonally.')
+  console.log('Use talk [coordinates] to talk to people.')
+}
