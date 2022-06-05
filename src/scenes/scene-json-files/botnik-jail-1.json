@@ -673,6 +673,11 @@
   ],
   "npcs": [
     {
+      "name": "Galuel Tulant",
+      "dialogueMap": {
+        "openingPhrase": "Yes?",
+        "options":[]
+      },
       "collidable": true,
       "coords": {
         "x": 6,
@@ -682,6 +687,11 @@
       "symbol": "β"
     },
     {
+      "name": "Fralerus Junain",
+      "dialogueMap": {
+        "openingPhrase": "Yes?",
+        "options":[]
+      },
       "collidable": true,
       "coords": {
         "x": 4,
@@ -691,6 +701,11 @@
       "symbol": "β"
     },
     {
+      "name": "Dunibane Maxich",
+      "dialogueMap": {
+        "openingPhrase": "Yes?",
+        "options":[]
+      },
       "collidable": true,
       "coords": {
         "x": 12,
@@ -700,6 +715,11 @@
       "symbol": "β"
     },
     {
+      "name": "Zelphar Sylric",
+      "dialogueMap": {
+        "openingPhrase": "Yes?",
+        "options":[]
+      },
       "collidable": true,
       "coords": {
         "x": 15,
@@ -709,6 +729,11 @@
       "symbol": "τ"
     },
     {
+      "name": "Esdergus Callenix",
+      "dialogueMap": {
+        "openingPhrase": "Yes?",
+        "options":[]
+      },
       "collidable": true,
       "coords": {
         "x": 9,
@@ -718,6 +743,11 @@
       "symbol": "β"
     },
     {
+      "name": "Malon Sarnala",
+      "dialogueMap": {
+        "openingPhrase": "Yes?",
+        "options":[]
+      },
       "collidable": true,
       "coords": {
         "x": 1,
@@ -750,6 +780,11 @@
       "symbol": "β"
     },
     {
+      "name": "Kolvar Miracan",
+      "dialogueMap": {
+        "openingPhrase": "Yes?",
+        "options":[]
+      },
       "collidable": true,
       "coords": {
         "x": 15,

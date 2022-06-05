@@ -272,6 +272,11 @@ describe('Scene Utils', () => {
       ]
 
       const expectedNpc: Npc = {
+        name: 'Theodes Idolin',
+        dialogueMap: {
+          openingPhrase: 'Yes?',
+          options: [],
+        },
         collidable: true,
         coords: { x: 2, y: 1 },
         hitpoints: DEFAULT_NPC_HITPOINTS,
@@ -311,6 +316,11 @@ describe('Scene Utils', () => {
       ]
 
       const expectedNpc: Npc = {
+        name: 'Theodes Idolin',
+        dialogueMap: {
+          openingPhrase: 'Yes?',
+          options: [],
+        },
         collidable: true,
         coords: { x: 2, y: 1 },
         hitpoints: DEFAULT_NPC_HITPOINTS,
@@ -350,12 +360,22 @@ describe('Scene Utils', () => {
       ]
 
       const human: Npc = {
+        name: 'Theodes Idolin',
+        dialogueMap: {
+          openingPhrase: 'Yes?',
+          options: [],
+        },
         collidable: true,
         coords: { x: 1, y: 0 },
         hitpoints: DEFAULT_NPC_HITPOINTS,
         symbol: 'β',
       }
       const elf: Npc = {
+        name: 'Theodes Idolin',
+        dialogueMap: {
+          openingPhrase: 'Yes?',
+          options: [],
+        },
         collidable: true,
         coords: { x: 2, y: 1 },
         hitpoints: DEFAULT_NPC_HITPOINTS,

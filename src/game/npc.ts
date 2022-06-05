@@ -14,8 +14,8 @@ export interface DialogueOption {
 }
 
 export interface Npc extends Collidable, Drawable, Hitable {
-  name?: string
-  dialogueMap?: {
+  name: string
+  dialogueMap: {
     openingPhrase: string
     options: DialogueOption[]
   }

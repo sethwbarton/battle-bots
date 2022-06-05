@@ -179,6 +179,10 @@ describe('doPlayerTurn', () => {
 
     test('Talking to an NPC that has nothing to say', async () => {
       const anotherNPC = {
+        dialogueMap: {
+          openingPhrase: 'Hello?',
+          options: [{ subject: '1', response: '2' }],
+        },
         name: 'A different NPC',
         coords: { x: 2, y: 2 },
         symbol: '2',
@@ -348,6 +352,23 @@ describe('doPlayerTurn', () => {
       // @ts-ignore
       expect(mockUiController.promptForConversation.mock.calls[3][1]).toEqual(
         'Seth is a bad programmer.'
+      )
+    })
+
+    test('Trying to talk to inanimate objects', async () => {
+      // This doesn't point to anything
+      mockUiController.getCommand = () => Promise.resolve('talk c9')
+
+      mockUiController.promptForConversation = jest.fn(() => {
+        return Promise.resolve('quit')
+      })
+
+      await doPlayerTurn(exampleGameState, mockUiController)
+
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
+      expect(mockUiController.promptForConversation.mock.calls[0][1]).toEqual(
+        "You can't talk to that."
       )
     })
   })

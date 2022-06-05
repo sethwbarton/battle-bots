@@ -104,6 +104,11 @@ function filterEmptyArrays(objectWithDrawables: {
 
 function makeNpc(x: number, y: number, symbol: string): Npc {
   return {
+    name: 'Theodes Idolin',
+    dialogueMap: {
+      openingPhrase: 'Yes?',
+      options: [],
+    },
     collidable: true,
     coords: { x, y },
     hitpoints: DEFAULT_NPC_HITPOINTS,
