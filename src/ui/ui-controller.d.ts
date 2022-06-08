@@ -6,4 +6,5 @@ export interface UiController {
   drawGameState(gameState: GameState): Promise<void>
   promptForConversation(options: string[], npcOpener: string): Promise<string>
   showHelpDialog(): Promise<void>
+  prompt(title: string, options: string[]): Promise<string>
 }

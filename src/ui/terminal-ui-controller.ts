@@ -1,6 +1,6 @@
 import Table from 'cli-table'
 import { GameState } from '../game/game-state'
-import { prompt } from 'enquirer'
+import { prompt as EnquirerPrompt } from 'enquirer'
 import { Command } from '../game/command'
 import { Scene } from '../game/scene'
 
@@ -121,7 +121,7 @@ function addWallsToUiBoard(currentScene: Scene, board: string[][]) {
 }
 
 export async function getStartGameSelection(): Promise<'New' | 'Load'> {
-  const result = await prompt({
+  const result = await EnquirerPrompt({
     message: 'Welcome to The Dungeon',
     type: 'select',
     name: 'startOption',
@@ -138,7 +138,7 @@ export async function promptForConversation(
   topicOptions: string[],
   npcOpener: string
 ): Promise<string> {
-  const result = await prompt({
+  const result = await EnquirerPrompt({
     message: npcOpener,
     type: 'select',
     name: 'conversationOption',
@@ -148,12 +148,16 @@ export async function promptForConversation(
 }
 
 export async function getCommand(): Promise<string> {
-  const playerAnswer = await prompt({
+  const playerAnswer = await EnquirerPrompt({
     message: 'Command Your Character',
     type: 'input',
     name: 'command',
   })
   return (playerAnswer as any).command
+}
+
+export async function prompt(title: string, options: string[]) {
+  return ''
 }
 
 export async function showHelpDialog(): Promise<void> {

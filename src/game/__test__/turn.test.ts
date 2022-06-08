@@ -22,7 +22,7 @@ const exampleGameState: GameState = {
     ],
   },
   player: { coords: { x: 5, y: 5 }, symbol: 'P' },
-  world: { scenes: [] },
+  world: { scenes: [], worldTime: '' },
 }
 
 const mockUiController: UiController = {
@@ -40,6 +40,9 @@ const mockUiController: UiController = {
   },
   showHelpDialog(): Promise<void> {
     return Promise.resolve()
+  },
+  prompt(title: string, options: string[]): Promise<string> {
+    return Promise.resolve('')
   },
 }
 

@@ -26,6 +26,7 @@ async function makeNewGameState(): Promise<GameState> {
       symbol: STARTING_PLAYER_SYMBOL,
     },
     world: {
+      worldTime: '9:00',
       scenes: [],
     },
     currentScene: botnikJailOne,

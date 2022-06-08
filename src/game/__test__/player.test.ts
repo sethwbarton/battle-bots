@@ -13,7 +13,7 @@ import { Command } from '../command'
 const exampleGameState: GameState = {
   currentScene: { id: '' },
   player: { coords: { x: 5, y: 5 }, symbol: 'P' },
-  world: { scenes: [] },
+  world: { scenes: [], worldTime: '' },
 }
 
 describe('Player', () => {
