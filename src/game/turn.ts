@@ -4,37 +4,24 @@ import { Command } from './command'
 import { movePlayer } from './player'
 import { isValidNpc, talkToNpc } from './npc'
 
-/*
-Hey Seth,
-
-Here's the next thing you need to add to your game.
-There needs to be some way to inspect things (the bed) and have a script run.
-Because under the bed there's going to be a sack and in the sack there's going to be a key
-and a mysterious note. Polonius is going to be ticked when he sees it because he was only
-being sassy when he said to check the bed.
-
-So we need a scripting engine... and an inventory for the player....
-and a way to open a door given that you have the right key.
-
-Happy hacking!
- */
 export async function doPlayerTurn(
   gameState: GameState,
   uiController: UiController
 ): Promise<GameState> {
   const reprompt = true
   while (reprompt) {
-    const commandWithArguments = await uiController.getCommand()
+    const commandWithArguments = await uiController.promptInput(
+      'Command your character'
+    )
     const command = commandWithArguments.split(' ')[0]
     const argument = commandWithArguments.split(' ')[1]
 
     switch (command) {
       case Command.Talk:
         if (!isValidNpc(argument, gameState)) {
-          await uiController.promptForConversation(
-            ['quit'],
-            "You can't talk to that."
-          )
+          await uiController.promptMultiChoice("You can't talk to that.", [
+            'quit',
+          ])
           break
         }
         await talkToNpc(uiController, gameState, argument)
@@ -56,7 +43,11 @@ export async function doPlayerTurn(
       case Command.MoveDownLeft:
         return movePlayer(gameState, command)
       default:
-        await uiController.showHelpDialog()
+        await uiController.display(
+          'Use w, a, s, d, followed by enter to move. \n' +
+            'You can use wa, wd, sd, sa to move diagonally. \n' +
+            'Use talk [coordinates] to talk to people.'
+        )
     }
   }
 

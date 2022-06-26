@@ -9,12 +9,7 @@ import { Door } from '../door'
 import { Wall } from '../wall'
 import { Bed } from '../bed'
 import { Command } from '../command'
-
-const exampleGameState: GameState = {
-  currentScene: { id: '' },
-  player: { coords: { x: 5, y: 5 }, symbol: 'P' },
-  world: { scenes: [], worldTime: '' },
-}
+import { exampleGameState } from './test-data/example-game-state'
 
 describe('Player', () => {
   describe('Move Player', () => {

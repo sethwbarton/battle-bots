@@ -160,6 +160,36 @@ export async function prompt(title: string, options: string[]) {
   return ''
 }
 
+export async function displayNpcName(name: string): Promise<void> {
+  console.log(name)
+}
+
+export async function display(text: string) {
+  console.log(text)
+}
+
+export async function promptInput(prompt: string): Promise<string> {
+  const response = await EnquirerPrompt({
+    message: prompt,
+    type: 'input',
+    name: 'response',
+  })
+  return (response as any).response
+}
+
+export async function promptMultiChoice(
+  prompt: string,
+  options: string[]
+): Promise<string> {
+  const result = await EnquirerPrompt({
+    message: prompt,
+    type: 'select',
+    name: 'conversationOption',
+    choices: options,
+  })
+  return (result as any).options
+}
+
 export async function showHelpDialog(): Promise<void> {
   console.log('Use w, a, s, d, followed by enter to move.')
   console.log('You can use wa, wd, sd, sa to move diagonally.')

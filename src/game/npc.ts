@@ -34,7 +34,7 @@ export async function talkToNpc(
 
   const npcToTalkTo = getNpcFromCoordinates(gameState, coordinates)
   if (npcToTalkTo) {
-    console.log('Talking to ' + npcToTalkTo.name)
+    await uiController.display(npcToTalkTo.name)
   }
   const topicOptions = npcToTalkTo?.dialogueMap?.options.map(
     (dialogueOption: DialogueOption) => {
@@ -42,19 +42,19 @@ export async function talkToNpc(
     }
   )
 
-  let conversationOption = await uiController.promptForConversation(
-    [...(topicOptions || []), 'quit'],
+  let conversationOption = await uiController.promptMultiChoice(
     npcToTalkTo?.dialogueMap?.openingPhrase ||
-      'This person has nothing to say to you.'
+      'This person has nothing to say to you.',
+    [...(topicOptions || []), 'quit']
   )
 
   while (conversationOption !== 'quit') {
-    conversationOption = await uiController.promptForConversation(
-      [...(topicOptions || []), 'quit'],
+    conversationOption = await uiController.promptMultiChoice(
       find(
         (dialogueOption: DialogueOption) =>
           dialogueOption.subject === conversationOption
-      )(npcToTalkTo?.dialogueMap?.options || [])?.response || ''
+      )(npcToTalkTo?.dialogueMap?.options || [])?.response || '',
+      [...(topicOptions || []), 'quit']
     )
   }
 }

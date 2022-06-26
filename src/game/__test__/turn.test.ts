@@ -1,55 +1,32 @@
 import { GameState } from '../game-state'
 import { doPlayerTurn } from '../turn'
-import { UiController } from '../../ui/ui-controller'
 import { Command } from '../command'
-import { dec, inc, update } from 'ramda'
+import { assocPath, dec, inc } from 'ramda'
+import { exampleGameState } from './test-data/example-game-state'
+import { mockUiController } from './test-data/mock-ui-controller'
 
-const exampleGameState: GameState = {
-  currentScene: {
-    id: '',
-    npcs: [
-      {
-        name: 'Testing Npc',
-        coords: { x: 1, y: 1 },
-        symbol: '1',
-        hitpoints: 100,
-        collidable: true,
-        dialogueMap: {
-          openingPhrase: 'Hello?',
-          options: [{ subject: '1', response: '2' }],
-        },
-      },
-    ],
+const exampleNpc = {
+  name: 'Testing Npc',
+  coords: { x: 1, y: 1 },
+  symbol: '1',
+  hitpoints: 100,
+  collidable: true,
+  dialogueMap: {
+    openingPhrase: 'Hello?',
+    options: [{ subject: '1', response: '2' }],
   },
-  player: { coords: { x: 5, y: 5 }, symbol: 'P' },
-  world: { scenes: [], worldTime: '' },
 }
 
-const mockUiController: UiController = {
-  drawGameState(gameState: GameState): Promise<void> {
-    return Promise.resolve(undefined)
-  },
-  getCommand(): Promise<Command> {
-    return Promise.resolve(Command.MoveUp)
-  },
-  getStartGameSelection(): Promise<'New' | 'Load'> {
-    return Promise.resolve('Load')
-  },
-  promptForConversation(options: string[], npcOpener: string): Promise<string> {
-    return Promise.resolve('')
-  },
-  showHelpDialog(): Promise<void> {
-    return Promise.resolve()
-  },
-  prompt(title: string, options: string[]): Promise<string> {
-    return Promise.resolve('')
-  },
-}
+const exampleGameStateWithNpc: GameState = assocPath(
+  ['currentScene', 'npcs'],
+  [exampleNpc],
+  exampleGameState
+)
 
 describe('doPlayerTurn', () => {
   beforeEach(() => {
     jest.clearAllMocks()
-    exampleGameState.currentScene.npcs = [
+    exampleGameStateWithNpc.currentScene.npcs = [
       {
         name: 'Testing Npc',
         coords: { x: 1, y: 1 },
@@ -66,7 +43,7 @@ describe('doPlayerTurn', () => {
 
   it("shows the help dialogue if the command doesn't compute", async () => {
     let callCount = 0
-    mockUiController.getCommand = () => {
+    mockUiController.promptInput = (input: string) => {
       if (callCount === 0) {
         callCount += 1
         return Promise.resolve('blah blah blah')
@@ -74,123 +51,121 @@ describe('doPlayerTurn', () => {
       return Promise.resolve('w')
     }
 
-    mockUiController.showHelpDialog = jest.fn()
+    mockUiController.display = jest.fn()
 
-    const updatedGameState = await doPlayerTurn(
-      exampleGameState,
-      mockUiController
-    )
+    await doPlayerTurn(exampleGameStateWithNpc, mockUiController)
 
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
-    expect(mockUiController.showHelpDialog.mock.calls.length).toEqual(1)
+    expect(mockUiController.display.mock.calls.length).toEqual(1)
   })
 
   describe('Player Movement', () => {
     it('Moves the player up when the command is given', async () => {
-      mockUiController.getCommand = () => Promise.resolve(Command.MoveUp)
+      mockUiController.promptInput = () => Promise.resolve(Command.MoveUp)
       const updatedGameState = await doPlayerTurn(
-        exampleGameState,
+        exampleGameStateWithNpc,
         mockUiController
       )
       expect(updatedGameState.player.coords.y).toEqual(
-        dec(exampleGameState.player.coords.y)
+        dec(exampleGameStateWithNpc.player.coords.y)
       )
     })
 
     it('Moves the player down when the command is given', async () => {
-      mockUiController.getCommand = () => Promise.resolve(Command.MoveDown)
+      mockUiController.promptInput = () => Promise.resolve(Command.MoveDown)
       const updatedGameState = await doPlayerTurn(
-        exampleGameState,
+        exampleGameStateWithNpc,
         mockUiController
       )
       expect(updatedGameState.player.coords.y).toEqual(
-        inc(exampleGameState.player.coords.y)
+        inc(exampleGameStateWithNpc.player.coords.y)
       )
     })
 
     it('Moves the player right when the command is given', async () => {
-      mockUiController.getCommand = () => Promise.resolve(Command.MoveRight)
+      mockUiController.promptInput = () => Promise.resolve(Command.MoveRight)
       const updatedGameState = await doPlayerTurn(
-        exampleGameState,
+        exampleGameStateWithNpc,
         mockUiController
       )
       expect(updatedGameState.player.coords.x).toEqual(
-        inc(exampleGameState.player.coords.x)
+        inc(exampleGameStateWithNpc.player.coords.x)
       )
     })
 
     it('Moves the player left when the command is given', async () => {
-      mockUiController.getCommand = () => Promise.resolve(Command.MoveLeft)
+      mockUiController.promptInput = () => Promise.resolve(Command.MoveLeft)
       const updatedGameState = await doPlayerTurn(
-        exampleGameState,
+        exampleGameStateWithNpc,
         mockUiController
       )
       expect(updatedGameState.player.coords.x).toEqual(
-        dec(exampleGameState.player.coords.x)
+        dec(exampleGameStateWithNpc.player.coords.x)
       )
     })
 
     it('Moves the player up left when the command is given', async () => {
-      mockUiController.getCommand = () => Promise.resolve(Command.MoveUpLeft)
+      mockUiController.promptInput = () => Promise.resolve(Command.MoveUpLeft)
       const updatedGameState = await doPlayerTurn(
-        exampleGameState,
+        exampleGameStateWithNpc,
         mockUiController
       )
       expect(updatedGameState.player.coords.x).toEqual(
-        dec(exampleGameState.player.coords.x)
+        dec(exampleGameStateWithNpc.player.coords.x)
       )
       expect(updatedGameState.player.coords.y).toEqual(
-        dec(exampleGameState.player.coords.y)
+        dec(exampleGameStateWithNpc.player.coords.y)
       )
     })
 
     it('Moves the player up right when the command is given', async () => {
-      mockUiController.getCommand = () => Promise.resolve(Command.MoveUpRight)
+      mockUiController.promptInput = () => Promise.resolve(Command.MoveUpRight)
       const updatedGameState = await doPlayerTurn(
-        exampleGameState,
+        exampleGameStateWithNpc,
         mockUiController
       )
       expect(updatedGameState.player.coords.x).toEqual(
-        inc(exampleGameState.player.coords.x)
+        inc(exampleGameStateWithNpc.player.coords.x)
       )
       expect(updatedGameState.player.coords.y).toEqual(
-        dec(exampleGameState.player.coords.y)
+        dec(exampleGameStateWithNpc.player.coords.y)
       )
     })
 
     it('Moves the player down right when the command is given', async () => {
-      mockUiController.getCommand = () => Promise.resolve(Command.MoveDownRight)
+      mockUiController.promptInput = () =>
+        Promise.resolve(Command.MoveDownRight)
       const updatedGameState = await doPlayerTurn(
-        exampleGameState,
+        exampleGameStateWithNpc,
         mockUiController
       )
       expect(updatedGameState.player.coords.x).toEqual(
-        inc(exampleGameState.player.coords.x)
+        inc(exampleGameStateWithNpc.player.coords.x)
       )
       expect(updatedGameState.player.coords.y).toEqual(
-        inc(exampleGameState.player.coords.y)
+        inc(exampleGameStateWithNpc.player.coords.y)
       )
     })
 
     it('Moves the player down left when the command is given', async () => {
-      mockUiController.getCommand = () => Promise.resolve(Command.MoveDownLeft)
+      mockUiController.promptInput = () => Promise.resolve(Command.MoveDownLeft)
       const updatedGameState = await doPlayerTurn(
-        exampleGameState,
+        exampleGameStateWithNpc,
         mockUiController
       )
       expect(updatedGameState.player.coords.x).toEqual(
-        dec(exampleGameState.player.coords.x)
+        dec(exampleGameStateWithNpc.player.coords.x)
       )
       expect(updatedGameState.player.coords.y).toEqual(
-        inc(exampleGameState.player.coords.y)
+        inc(exampleGameStateWithNpc.player.coords.y)
       )
     })
   })
   describe('Npc Interaction', () => {
     test("Talking to an NPC when there isn't one in that spot prompts the user that they can't talk to that and reprompts for input", async () => {
       let callCount = 0
-      mockUiController.getCommand = () => {
+      mockUiController.promptInput = () => {
         if (callCount === 0) {
           callCount += 1
           return Promise.resolve('talk c9')
@@ -201,57 +176,56 @@ describe('doPlayerTurn', () => {
         }
         return Promise.resolve('a')
       }
-      mockUiController.promptForConversation = jest.fn(() => {
+      mockUiController.promptMultiChoice = jest.fn(() => {
         return Promise.resolve('quit')
       })
 
-      await doPlayerTurn(exampleGameState, mockUiController)
+      await doPlayerTurn(exampleGameStateWithNpc, mockUiController)
 
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
-      expect(mockUiController.promptForConversation.mock.calls.length).toEqual(
-        2
-      )
+      expect(mockUiController.promptMultiChoice.mock.calls.length).toEqual(2)
     })
 
     test("Talking to an NPC shows the NPC's opening dialogue", async () => {
-      mockUiController.getCommand = () => Promise.resolve('talk A1')
-      mockUiController.promptForConversation = jest.fn(() =>
+      mockUiController.promptInput = () => Promise.resolve('talk A1')
+      mockUiController.promptMultiChoice = jest.fn(() =>
         Promise.resolve('quit')
       )
-      await doPlayerTurn(exampleGameState, mockUiController)
+      await doPlayerTurn(exampleGameStateWithNpc, mockUiController)
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
-      expect(mockUiController.promptForConversation.mock.calls[0][1]).toEqual(
-        exampleGameState.currentScene.npcs?.[0].dialogueMap?.openingPhrase
+      expect(mockUiController.promptMultiChoice.mock.calls[0][0]).toEqual(
+        exampleGameStateWithNpc.currentScene.npcs?.[0].dialogueMap
+          ?.openingPhrase
       )
     })
 
     test("Talking to an NPC shows the NPC's dialogue options after the opening phrase", async () => {
-      mockUiController.getCommand = () => Promise.resolve('talk A1')
-      mockUiController.promptForConversation = jest.fn(() =>
+      mockUiController.promptInput = () => Promise.resolve('talk A1')
+      mockUiController.promptMultiChoice = jest.fn(() =>
         Promise.resolve('quit')
       )
-      await doPlayerTurn(exampleGameState, mockUiController)
+      await doPlayerTurn(exampleGameStateWithNpc, mockUiController)
 
       expect(
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
-        mockUiController.promptForConversation.mock.calls.length
+        mockUiController.promptMultiChoice.mock.calls.length
       ).toEqual(1)
     })
 
     test('Talking to an NPC shows the proper dialogue options for that NPC', async () => {
-      mockUiController.getCommand = () => Promise.resolve('talk A1')
-      mockUiController.promptForConversation = jest.fn(() =>
+      mockUiController.promptInput = () => Promise.resolve('talk A1')
+      mockUiController.promptMultiChoice = jest.fn(() =>
         Promise.resolve('quit')
       )
-      await doPlayerTurn(exampleGameState, mockUiController)
+      await doPlayerTurn(exampleGameStateWithNpc, mockUiController)
 
       expect(
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
-        mockUiController.promptForConversation.mock.calls[0][0]
+        mockUiController.promptMultiChoice.mock.calls[0][1]
       ).toEqual(['1', 'quit'])
     })
 
@@ -273,23 +247,23 @@ describe('doPlayerTurn', () => {
         },
       }
 
-      exampleGameState.currentScene.npcs?.push(anotherNPC)
-      mockUiController.getCommand = () => Promise.resolve('talk B2')
-      mockUiController.promptForConversation = jest.fn(() =>
+      exampleGameStateWithNpc.currentScene.npcs?.push(anotherNPC)
+      mockUiController.promptInput = () => Promise.resolve('talk B2')
+      mockUiController.promptMultiChoice = jest.fn(() =>
         Promise.resolve('quit')
       )
 
-      await doPlayerTurn(exampleGameState, mockUiController)
+      await doPlayerTurn(exampleGameStateWithNpc, mockUiController)
 
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
-      expect(mockUiController.promptForConversation.mock.calls[0][1]).toEqual(
+      expect(mockUiController.promptMultiChoice.mock.calls[0][0]).toEqual(
         anotherNPC.dialogueMap.openingPhrase
       )
       expect(
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
-        mockUiController.promptForConversation.mock.calls[0][0]
+        mockUiController.promptMultiChoice.mock.calls[0][1]
       ).toEqual(['Your background', 'quit'])
     })
 
@@ -319,12 +293,12 @@ describe('doPlayerTurn', () => {
         },
       }
 
-      exampleGameState.currentScene.npcs?.push(anotherNPC)
-      mockUiController.getCommand = () => Promise.resolve('talk B2')
+      exampleGameStateWithNpc.currentScene.npcs?.push(anotherNPC)
+      mockUiController.promptInput = () => Promise.resolve('talk B2')
 
       let callCount = 0
       // Ask about their background first. Then their profession. Then a secret.
-      mockUiController.promptForConversation = jest.fn(() => {
+      mockUiController.promptMultiChoice = jest.fn(() => {
         if (callCount === 0) {
           callCount += 1
           return Promise.resolve('Your background')
@@ -344,21 +318,21 @@ describe('doPlayerTurn', () => {
         return Promise.resolve('')
       })
 
-      await doPlayerTurn(exampleGameState, mockUiController)
+      await doPlayerTurn(exampleGameStateWithNpc, mockUiController)
 
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
-      expect(mockUiController.promptForConversation.mock.calls[1][1]).toEqual(
+      expect(mockUiController.promptMultiChoice.mock.calls[1][0]).toEqual(
         "I don't like you enough to tell."
       )
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
-      expect(mockUiController.promptForConversation.mock.calls[2][1]).toEqual(
+      expect(mockUiController.promptMultiChoice.mock.calls[2][0]).toEqual(
         "I'm a programmer."
       )
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
-      expect(mockUiController.promptForConversation.mock.calls[3][1]).toEqual(
+      expect(mockUiController.promptMultiChoice.mock.calls[3][0]).toEqual(
         'Seth is a bad programmer.'
       )
     })
@@ -366,7 +340,7 @@ describe('doPlayerTurn', () => {
     test('Trying to talk to inanimate objects', async () => {
       // This doesn't point to anything
       let callCount = 0
-      mockUiController.getCommand = () => {
+      mockUiController.promptInput = () => {
         if (callCount === 0) {
           callCount += 1
           return Promise.resolve('talk c9')
@@ -374,15 +348,15 @@ describe('doPlayerTurn', () => {
         return Promise.resolve('w')
       }
 
-      mockUiController.promptForConversation = jest.fn(() => {
+      mockUiController.promptMultiChoice = jest.fn(() => {
         return Promise.resolve('quit')
       })
 
-      await doPlayerTurn(exampleGameState, mockUiController)
+      await doPlayerTurn(exampleGameStateWithNpc, mockUiController)
 
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
-      expect(mockUiController.promptForConversation.mock.calls[0][1]).toEqual(
+      expect(mockUiController.promptMultiChoice.mock.calls[0][0]).toEqual(
         "You can't talk to that."
       )
     })

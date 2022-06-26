@@ -15,7 +15,7 @@ export async function defaultBedInteract(
   objectCoords: Coords
 ): Promise<GameState> {
   const restAmount = parseInt(
-    await uiController.prompt('How long would you like to rest?', [
+    await uiController.promptMultiChoice('How long would you like to rest?', [
       '3',
       '6',
       '9',
