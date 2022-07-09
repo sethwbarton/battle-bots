@@ -187,7 +187,7 @@ export async function promptMultiChoice(
     name: 'conversationOption',
     choices: options,
   })
-  return (result as any).options
+  return (result as any).conversationOption
 }
 
 export async function showHelpDialog(): Promise<void> {

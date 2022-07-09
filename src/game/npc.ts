@@ -68,7 +68,7 @@ function getNpcFromCoordinates(
   })(gameState.currentScene?.npcs || [])
 }
 
-function matchLetterNumberToCoordinate(
+export function matchLetterNumberToCoordinate(
   letterNumberCombo: string
 ): Coords | undefined {
   const lettersToXCoord: Map<string, number> = new Map(

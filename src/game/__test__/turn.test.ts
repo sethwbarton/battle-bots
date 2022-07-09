@@ -4,6 +4,8 @@ import { Command } from '../command'
 import { assocPath, dec, inc } from 'ramda'
 import { exampleGameState } from './test-data/example-game-state'
 import { mockUiController } from './test-data/mock-ui-controller'
+import { Bed, defaultBedInteract } from '../bed'
+import { Wall } from '../wall'
 
 const exampleNpc = {
   name: 'Testing Npc',
@@ -162,6 +164,7 @@ describe('doPlayerTurn', () => {
       )
     })
   })
+
   describe('Npc Interaction', () => {
     test("Talking to an NPC when there isn't one in that spot prompts the user that they can't talk to that and reprompts for input", async () => {
       let callCount = 0
@@ -359,6 +362,78 @@ describe('doPlayerTurn', () => {
       expect(mockUiController.promptMultiChoice.mock.calls[0][0]).toEqual(
         "You can't talk to that."
       )
+    })
+  })
+
+  describe('Object interaction', () => {
+    test('Interacting with a bed forwards the game time by the amount chosen', async () => {
+      mockUiController.promptInput = () => Promise.resolve('interact B1')
+      mockUiController.promptMultiChoice = () => Promise.resolve('4')
+
+      const exampleBed: Bed = {
+        collidable: true,
+        coords: {
+          x: 2,
+          y: 2,
+        },
+        hitpoints: 0,
+        interact: defaultBedInteract,
+        symbol: 'B',
+      }
+
+      const updatedGameState = await doPlayerTurn(
+        assocPath(['currentScene', 'beds'], [exampleBed], exampleGameState),
+        mockUiController
+      )
+
+      expect(updatedGameState.world.worldTime).toEqual('13:00')
+    })
+
+    test('Interacting with an empty space alerts the player they can not interact with that', async () => {
+      mockUiController.promptInput = () => Promise.resolve('interact B1')
+      mockUiController.display = jest.fn()
+
+      await doPlayerTurn(exampleGameStateWithNpc, mockUiController)
+
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
+      expect(mockUiController.display.mock.calls.length).toEqual(1)
+    })
+
+    test('Interacting with something without an interact script alerts the player they can not interact with that.', async () => {
+      mockUiController.promptInput = () => Promise.resolve('interact B1')
+      mockUiController.display = jest.fn()
+
+      const wall: Wall = {
+        collidable: true,
+        coords: { x: 2, y: 2 },
+        hitpoints: 0,
+        symbol: 'W',
+      }
+
+      await doPlayerTurn(
+        assocPath(['currentScene', 'walls'], [wall], exampleGameState),
+        mockUiController
+      )
+
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
+      expect(mockUiController.display.mock.calls.length).toEqual(1)
+    })
+
+    test('Interacting with an NPC engages them in dialogue', async () => {
+      mockUiController.promptInput = () => Promise.resolve('interact A1')
+      mockUiController.promptMultiChoice = jest.fn(() =>
+        Promise.resolve('quit')
+      )
+
+      await doPlayerTurn(exampleGameStateWithNpc, mockUiController)
+
+      expect(
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
+        mockUiController.promptMultiChoice.mock.calls[0][1]
+      ).toEqual(['1', 'quit'])
     })
   })
 })

@@ -1,4 +1,5 @@
 export enum Command {
+  Interact = 'interact',
   Inventory = 'i',
   Map = 'm',
   Journal = 'j',
