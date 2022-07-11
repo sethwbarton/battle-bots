@@ -367,7 +367,7 @@ describe('doPlayerTurn', () => {
 
   describe('Object interaction', () => {
     test('Interacting with a bed forwards the game time by the amount chosen', async () => {
-      mockUiController.promptInput = () => Promise.resolve('interact B1')
+      mockUiController.promptInput = () => Promise.resolve('interact B2')
       mockUiController.promptMultiChoice = () => Promise.resolve('4')
 
       const exampleBed: Bed = {
@@ -400,6 +400,18 @@ describe('doPlayerTurn', () => {
       expect(mockUiController.display.mock.calls.length).toEqual(1)
     })
 
+    test('Interacting with an empty space returns the game state unchanged', async () => {
+      mockUiController.promptInput = () => Promise.resolve('interact B1')
+      mockUiController.display = jest.fn()
+
+      const newGameState = await doPlayerTurn(
+        exampleGameStateWithNpc,
+        mockUiController
+      )
+
+      expect(newGameState).toEqual(exampleGameStateWithNpc)
+    })
+
     test('Interacting with something without an interact script alerts the player they can not interact with that.', async () => {
       mockUiController.promptInput = () => Promise.resolve('interact B1')
       mockUiController.display = jest.fn()
@@ -419,6 +431,27 @@ describe('doPlayerTurn', () => {
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
       expect(mockUiController.display.mock.calls.length).toEqual(1)
+    })
+
+    test('Interacting with something without an interact script leaves the game state unchanged', async () => {
+      mockUiController.promptInput = () => Promise.resolve('interact B1')
+      mockUiController.display = jest.fn()
+
+      const wall: Wall = {
+        collidable: true,
+        coords: { x: 2, y: 2 },
+        hitpoints: 0,
+        symbol: 'W',
+      }
+
+      const newGameState = await doPlayerTurn(
+        assocPath(['currentScene', 'walls'], [wall], exampleGameState),
+        mockUiController
+      )
+
+      expect(newGameState).toEqual(
+        assocPath(['currentScene', 'walls'], [wall], exampleGameState)
+      )
     })
 
     test('Interacting with an NPC engages them in dialogue', async () => {

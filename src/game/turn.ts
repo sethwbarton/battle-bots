@@ -3,7 +3,7 @@ import { UiController } from '../ui/ui-controller'
 import { Command } from './command'
 import { movePlayer } from './player'
 import { isValidNpc, matchLetterNumberToCoordinate, talkToNpc } from './npc'
-import { assocPath, find, propEq } from 'ramda'
+import { find, propEq } from 'ramda'
 import { defaultBedInteract } from './bed'
 import { Coords } from './drawable'
 
@@ -72,6 +72,7 @@ const interactWithObject = async (
   )
   if (!targetedObject) {
     await uiController.display("You can't interact with that.")
+    return gameState
   }
   if (isNpc(targetedObject)) {
     await talkToNpc(uiController, gameState, commandArgument)
