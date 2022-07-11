@@ -4,7 +4,6 @@ import { Command } from './command'
 import { movePlayer } from './player'
 import { isValidNpc, matchLetterNumberToCoordinate, talkToNpc } from './npc'
 import { find, propEq } from 'ramda'
-import { defaultBedInteract } from './bed'
 import { Coords } from './drawable'
 
 export async function doPlayerTurn(
@@ -29,7 +28,11 @@ export async function doPlayerTurn(
           ])
           break
         }
-        await talkToNpc(uiController, gameState, argument)
+        await talkToNpc(
+          gameState,
+          uiController,
+          matchLetterNumberToCoordinate(argument) || { x: 1, y: 1 }
+        )
         return gameState
       case Command.MoveDown:
         return movePlayer(gameState, command)
@@ -70,16 +73,17 @@ const interactWithObject = async (
     gameState,
     objectCoordinates || { x: 1, y: 1 }
   )
-  if (!targetedObject) {
+
+  if (!targetedObject || !targetedObject.interact) {
     await uiController.display("You can't interact with that.")
     return gameState
   }
-  if (isNpc(targetedObject)) {
-    await talkToNpc(uiController, gameState, commandArgument)
-    return gameState
-  }
 
-  return await defaultBedInteract(gameState, uiController, { x: 1, y: 1 })
+  return await targetedObject.interact(
+    gameState,
+    uiController,
+    objectCoordinates
+  )
 }
 
 async function findItemFromCoordinates(
@@ -89,9 +93,6 @@ async function findItemFromCoordinates(
   return find(propEq('coords', objectCoordinates))([
     ...(gameState.currentScene.beds || []),
     ...(gameState.currentScene.npcs || []),
+    ...(gameState.currentScene.walls || []),
   ])
-}
-
-function isNpc(object: any) {
-  return Boolean(object?.dialogueMap)
 }

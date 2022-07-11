@@ -1,18 +1,20 @@
 import { GameState } from '../game-state'
 import { doPlayerTurn } from '../turn'
 import { Command } from '../command'
-import { assocPath, dec, inc } from 'ramda'
+import { assocPath, dec, inc, intersection } from 'ramda'
 import { exampleGameState } from './test-data/example-game-state'
 import { mockUiController } from './test-data/mock-ui-controller'
 import { Bed, defaultBedInteract } from '../bed'
 import { Wall } from '../wall'
+import { Npc, talkToNpc } from '../npc'
 
-const exampleNpc = {
+const exampleNpc: Npc = {
   name: 'Testing Npc',
   coords: { x: 1, y: 1 },
   symbol: '1',
   hitpoints: 100,
   collidable: true,
+  interact: talkToNpc,
   dialogueMap: {
     openingPhrase: 'Hello?',
     options: [{ subject: '1', response: '2' }],
@@ -35,6 +37,7 @@ describe('doPlayerTurn', () => {
         symbol: '1',
         hitpoints: 100,
         collidable: true,
+        interact: talkToNpc,
         dialogueMap: {
           openingPhrase: 'Hello?',
           options: [{ subject: '1', response: '2' }],
@@ -389,6 +392,33 @@ describe('doPlayerTurn', () => {
       expect(updatedGameState.world.worldTime).toEqual('13:00')
     })
 
+    test('An object with an interact script will have it run when interacted with', async () => {
+      mockUiController.promptInput = () => Promise.resolve('interact B2')
+      mockUiController.promptMultiChoice = () => Promise.resolve('4')
+
+      let callCount = 1
+      const exampleBed: Bed = {
+        collidable: true,
+        coords: {
+          x: 2,
+          y: 2,
+        },
+        hitpoints: 0,
+        interact: async (gameState, uiController, objectCoords) => {
+          callCount += 1
+          return gameState
+        },
+        symbol: 'B',
+      }
+
+      const updatedGameState = await doPlayerTurn(
+        assocPath(['currentScene', 'beds'], [exampleBed], exampleGameState),
+        mockUiController
+      )
+
+      expect(callCount).toEqual(2)
+    })
+
     test('Interacting with an empty space alerts the player they can not interact with that', async () => {
       mockUiController.promptInput = () => Promise.resolve('interact B1')
       mockUiController.display = jest.fn()
@@ -418,7 +448,7 @@ describe('doPlayerTurn', () => {
 
       const wall: Wall = {
         collidable: true,
-        coords: { x: 2, y: 2 },
+        coords: { x: 2, y: 1 },
         hitpoints: 0,
         symbol: 'W',
       }

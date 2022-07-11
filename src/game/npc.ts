@@ -5,6 +5,7 @@ import { UiController } from '../ui/ui-controller'
 import { GameState } from './game-state'
 import { NUM_ROWS_PER_SCENE } from '../ui/terminal-ui-controller'
 import { equals, find } from 'ramda'
+import { Interactable } from './interactable'
 
 export const DEFAULT_NPC_HITPOINTS = 100
 
@@ -13,7 +14,7 @@ export interface DialogueOption {
   response: string
 }
 
-export interface Npc extends Collidable, Drawable, Hitable {
+export interface Npc extends Collidable, Drawable, Hitable, Interactable {
   name: string
   dialogueMap: {
     openingPhrase: string
@@ -22,17 +23,12 @@ export interface Npc extends Collidable, Drawable, Hitable {
 }
 
 export async function talkToNpc(
-  uiController: UiController,
   gameState: GameState,
-  userInputCoordinates: string
-) {
-  const coordinates = matchLetterNumberToCoordinate(userInputCoordinates)
+  uiController: UiController,
+  userInputCoordinates: Coords
+): Promise<GameState> {
+  const npcToTalkTo = getNpcFromCoordinates(gameState, userInputCoordinates)
 
-  if (!coordinates) {
-    return
-  }
-
-  const npcToTalkTo = getNpcFromCoordinates(gameState, coordinates)
   if (npcToTalkTo) {
     await uiController.display(npcToTalkTo.name)
   }
@@ -57,6 +53,7 @@ export async function talkToNpc(
       [...(topicOptions || []), 'quit']
     )
   }
+  return gameState
 }
 
 function getNpcFromCoordinates(
