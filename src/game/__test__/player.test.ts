@@ -1,4 +1,3 @@
-import { GameState } from '../game-state'
 import { movePlayer } from '../player'
 import { assocPath, dec, inc } from 'ramda'
 import {
@@ -345,6 +344,13 @@ describe('Player', () => {
           x: dec(exampleGameState.player.coords.x),
           y: inc(exampleGameState.player.coords.y),
         })
+      })
+    })
+  })
+  describe('Add to player inventory', () => {
+    it('Adds an inventory item to the player inventory', () => {
+      const updatedGameState = addToPlayerInventory(exampleGameState, {
+        name: "I'm an item!",
       })
     })
   })
