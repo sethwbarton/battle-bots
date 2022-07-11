@@ -1,3 +1,6 @@
+import { talkToNpc } from '../../game/npc'
+import { defaultBedInteract } from '../../game/bed'
+
 export const botnikJailOne = {
   walls: [
     {
@@ -453,6 +456,7 @@ export const botnikJailOne = {
   ],
   beds: [
     {
+      interact: defaultBedInteract,
       coords: {
         x: 1,
         y: 0,
@@ -462,6 +466,7 @@ export const botnikJailOne = {
       hitpoints: 100,
     },
     {
+      interact: defaultBedInteract,
       coords: {
         x: 4,
         y: 0,
@@ -471,6 +476,7 @@ export const botnikJailOne = {
       hitpoints: 100,
     },
     {
+      interact: defaultBedInteract,
       coords: {
         x: 7,
         y: 0,
@@ -480,6 +486,7 @@ export const botnikJailOne = {
       hitpoints: 100,
     },
     {
+      interact: defaultBedInteract,
       coords: {
         x: 10,
         y: 0,
@@ -489,6 +496,7 @@ export const botnikJailOne = {
       hitpoints: 100,
     },
     {
+      interact: defaultBedInteract,
       coords: {
         x: 13,
         y: 0,
@@ -498,6 +506,7 @@ export const botnikJailOne = {
       hitpoints: 100,
     },
     {
+      interact: defaultBedInteract,
       coords: {
         x: 16,
         y: 0,
@@ -507,6 +516,7 @@ export const botnikJailOne = {
       hitpoints: 100,
     },
     {
+      interact: defaultBedInteract,
       coords: {
         x: 1,
         y: 9,
@@ -516,6 +526,7 @@ export const botnikJailOne = {
       hitpoints: 100,
     },
     {
+      interact: defaultBedInteract,
       coords: {
         x: 3,
         y: 9,
@@ -525,6 +536,7 @@ export const botnikJailOne = {
       hitpoints: 100,
     },
     {
+      interact: defaultBedInteract,
       coords: {
         x: 6,
         y: 9,
@@ -534,6 +546,7 @@ export const botnikJailOne = {
       hitpoints: 100,
     },
     {
+      interact: defaultBedInteract,
       coords: {
         x: 9,
         y: 9,
@@ -543,6 +556,7 @@ export const botnikJailOne = {
       hitpoints: 100,
     },
     {
+      interact: defaultBedInteract,
       coords: {
         x: 12,
         y: 9,
@@ -552,6 +566,7 @@ export const botnikJailOne = {
       hitpoints: 100,
     },
     {
+      interact: defaultBedInteract,
       coords: {
         x: 15,
         y: 9,
@@ -674,6 +689,7 @@ export const botnikJailOne = {
   npcs: [
     {
       name: 'Galuel Tulant',
+      interact: talkToNpc,
       dialogueMap: {
         openingPhrase: 'Yes?',
         options: [],
@@ -687,6 +703,7 @@ export const botnikJailOne = {
       symbol: 'β',
     },
     {
+      interact: talkToNpc,
       name: 'Fralerus Junain',
       dialogueMap: {
         openingPhrase: 'Yes?',
@@ -701,6 +718,7 @@ export const botnikJailOne = {
       symbol: 'β',
     },
     {
+      interact: talkToNpc,
       name: 'Dunibane Maxich',
       dialogueMap: {
         openingPhrase: 'Yes?',
@@ -715,6 +733,7 @@ export const botnikJailOne = {
       symbol: 'β',
     },
     {
+      interact: talkToNpc,
       name: 'Zelphar Sylric',
       dialogueMap: {
         openingPhrase: 'Yes?',
@@ -729,6 +748,7 @@ export const botnikJailOne = {
       symbol: 'τ',
     },
     {
+      interact: talkToNpc,
       name: 'Esdergus Callenix',
       dialogueMap: {
         openingPhrase: 'Yes?',
@@ -743,6 +763,7 @@ export const botnikJailOne = {
       symbol: 'β',
     },
     {
+      interact: talkToNpc,
       name: 'Malon Sarnala',
       dialogueMap: {
         openingPhrase: 'Yes?',
@@ -757,6 +778,7 @@ export const botnikJailOne = {
       symbol: 'τ',
     },
     {
+      interact: talkToNpc,
       name: 'Polonius Merc',
       dialogueMap: {
         openingPhrase:
@@ -782,6 +804,7 @@ export const botnikJailOne = {
       symbol: 'β',
     },
     {
+      interact: talkToNpc,
       name: 'Kolvar Miracan',
       dialogueMap: {
         openingPhrase: 'Yes?',
