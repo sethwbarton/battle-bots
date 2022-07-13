@@ -22,6 +22,7 @@ async function gameLoop() {
 async function makeNewGameState(): Promise<GameState> {
   return {
     player: {
+      inventory: [],
       coords: { x: 7, y: 7 },
       symbol: STARTING_PLAYER_SYMBOL,
     },

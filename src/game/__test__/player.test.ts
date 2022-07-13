@@ -1,5 +1,5 @@
-import { movePlayer } from '../player'
-import { assocPath, dec, inc } from 'ramda'
+import { addToPlayerInventory, movePlayer } from '../player'
+import { assoc, assocPath, dec, inc } from 'ramda'
 import {
   NUM_COLS_PER_SCENE,
   NUM_ROWS_PER_SCENE,
@@ -9,6 +9,7 @@ import { Wall } from '../wall'
 import { Bed } from '../bed'
 import { Command } from '../command'
 import { exampleGameState } from './test-data/example-game-state'
+import { InventoryItem } from '../inventory-item'
 
 describe('Player', () => {
   describe('Move Player', () => {
@@ -347,11 +348,18 @@ describe('Player', () => {
       })
     })
   })
+
   describe('Add to player inventory', () => {
     it('Adds an inventory item to the player inventory', () => {
-      const updatedGameState = addToPlayerInventory(exampleGameState, {
-        name: "I'm an item!",
-      })
+      const exampleItem: InventoryItem = {
+        name: 'Test Key',
+        type: 'key',
+      }
+      const updatedGameState = addToPlayerInventory(
+        assocPath(['player', 'inventory', 0], [], exampleGameState),
+        exampleItem
+      )
+      expect(updatedGameState.player.inventory[0]).toEqual(exampleItem)
     })
   })
 })

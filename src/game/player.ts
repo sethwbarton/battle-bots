@@ -7,10 +7,20 @@ import {
 } from '../ui/terminal-ui-controller'
 import { Collidable, getCurrentSceneCollidables } from './collidable'
 import { Command } from './command'
+import { InventoryItem } from './inventory-item'
 
 export const STARTING_PLAYER_SYMBOL = '☉'
 
-export type Player = Drawable
+export interface Player extends Drawable {
+  inventory: InventoryItem[]
+}
+
+export function addToPlayerInventory(
+  gameState: GameState,
+  item: InventoryItem
+): GameState {
+  return assocPath(['player', 'inventory'], [item], gameState)
+}
 
 export function movePlayer(gameState: GameState, command: Command): GameState {
   let newGameStateToReturn = gameState
